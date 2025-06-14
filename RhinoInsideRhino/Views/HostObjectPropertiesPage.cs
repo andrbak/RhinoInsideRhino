@@ -6,7 +6,7 @@ using Rhino.UI;
 using System;
 using RhinoInsideRhino.ObjectModel;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace RhinoInsideRhino.Views
 {
@@ -59,17 +59,26 @@ namespace RhinoInsideRhino.Views
             var modellist = new Dictionary<string, string>();
             foreach (var obj in selectedObjects)
             {
-                var data = obj.Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
-                if (data != null)
+                var _data = obj.Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
+                if (_data != null)
                 {
-                    if (data.Data.ModelId != Guid.Empty)
+                    if (_data.Data.ModelId != string.Empty)
                     {
-                        modellist[data.Data.ModelId.ToString()] = data.Data.token;
+                        modellist[_data.Data.ModelId.ToString()] = _data.Data.token;
                     }
                 }
+
             }
+            var data = selectedObjects[0].Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
             var layout = new DynamicLayout();
             layout.AddSeparateRow(new Label { Text = "This is a Smart Object" });
+            layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
+            foreach (var parameter in data.Data.Parameters)
+            {
+                layout.AddSeparateRow(new Label { Text = parameter.Key + ":" + parameter.Value.Value });
+
+            }
+
             Content = layout;
         }
 

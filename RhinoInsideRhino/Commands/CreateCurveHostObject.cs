@@ -5,6 +5,7 @@ using Rhino.Input.Custom;
 using Rhino.Input;
 using Rhino.DocObjects;
 using RhinoInsideRhino.ObjectModel;
+using System.Collections.Generic;
 
 namespace RhinoInsideRhino.Commands
 {
@@ -14,6 +15,7 @@ namespace RhinoInsideRhino.Commands
         {
             Instance = this;
         }
+
 
         ///<summary>The only instance of this command.</summary>
         public static CreateCurveHostObject Instance { get; private set; }
@@ -63,13 +65,26 @@ namespace RhinoInsideRhino.Commands
 
             bool keepOriginal = boolOption.CurrentValue;
 
+            
             // Collect selected curves and create curve host objects
             foreach (var obj in go.Objects())
             {
                 var curve = obj.Curve();
                 if (curve == null) continue;
 
+                DateTime dateTime = DateTime.Now;
+                int timeMsSinceMidnight = (int)dateTime.TimeOfDay.TotalSeconds;
+                Random rand = new Random(timeMsSinceMidnight);
+
                 CurveHostObject curveHostObjects = new CurveHostObject(curve);
+                curveHostObjects.Data.Parameters = new Dictionary<string, ParameterObject>
+                {
+                    ["pelemt_ht"] = new ParameterObject { Type = "Slider", Value = 2.7 },
+                    ["close_percent"] = new ParameterObject { Type = "Slider", Value = 62.0 },
+                    ["open_location"] = new ParameterObject { Type = "Slider", Value = 1 }
+                };
+
+                //curveHostObjects.Data.ModelId = rand.Next().ToString()
                 RhinoDoc.ActiveDoc.Objects.AddRhinoObject(curveHostObjects, curve);
 
                 // Optionally, delete the original Brep object if KeepOriginal is false
