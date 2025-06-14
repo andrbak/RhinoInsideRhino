@@ -1,0 +1,23 @@
+using Rhino.DocObjects.Custom;
+using Rhino.FileIO;
+using Rhino.Geometry;
+using RhinoInsideRhino.Commands;
+using RhinoInsideRhino.Converters;
+using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Text.Json;
+
+namespace RhinoInsideRhino.Requests
+{
+    public class Modelinfo
+    {
+
+
+    }
+
+    public class ComputeCall
+    {
+
+    }
+}
