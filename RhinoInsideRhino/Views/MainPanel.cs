@@ -8,6 +8,7 @@ using Rhino.UI;
 using RhinoInsideRhino.ObjectModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 
@@ -72,7 +73,7 @@ namespace RhinoInsideRhino.Views
                 if (dlg.ShowDialog(this) == DialogResult.Ok)
                 {
                     selectedFolder = dlg.Directory;
-                    MessageBox.Show(this, "Selected folder: " + selectedFolder, "Folder Selected");
+                    //MessageBox.Show(this, "Selected folder: " + selectedFolder, "Folder Selected");
 
                     // Reload macros from the new folder and update the list
                     var macros = MacroLoader.LoadMacrosFromSubfolders(selectedFolder);
@@ -237,17 +238,26 @@ namespace RhinoInsideRhino.Views
                         curveHostObjects.Data.ModelId = selectedMacro.ModelId;
 
 
+                        // TEST DATA
+                        string filePath = @"C:\Users\andreasb\source\repos\RhinoInsideRhino\RhinoInsideRhino\TestData\testData.json";
 
-                        string json = ""; //TODO: compute script and get parameters
 
-                        var parameters = ParameterParser.ParseInputs(json);
 
-                        curveHostObjects.Data.Parameters = parameters;
+                        if (File.Exists(filePath))
+                        {
+                            string json = File.ReadAllText(filePath);
 
-                        RhinoDoc.ActiveDoc.Objects.AddRhinoObject(curveHostObjects, curve);
+                            var parameters = ParameterParser.ParseInputs(json);
 
-                        // Delete original object
-                        RhinoDoc.ActiveDoc.Objects.Delete(obj, true);
+                            curveHostObjects.Data.Parameters = parameters;
+
+                            RhinoDoc.ActiveDoc.Objects.AddRhinoObject(curveHostObjects, curve);
+
+                            // Delete original object
+                            RhinoDoc.ActiveDoc.Objects.Delete(obj, true);
+                        }
+
+         
                         
 
                     }

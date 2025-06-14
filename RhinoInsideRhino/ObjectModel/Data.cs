@@ -31,16 +31,35 @@ public class Data
     public Color Color { get; set; } = Color.Blue;
     public int Thickness { get; set; } = 5;
 
-    public Data()
-    {
-    }
-    protected Data(Data other)
-    {
-        if (other == null)
-            throw new ArgumentNullException(nameof(other));
-        Color = other.Color;
-        Thickness = other.Thickness;
-    }
+        public Data()
+        {
+        }
+        protected Data(Data other)
+        {
+            if (other == null)
+                throw new ArgumentNullException(nameof(other));
+
+            Color = other.Color;
+            Thickness = other.Thickness;
+            DisplayOnly = other.DisplayOnly;
+
+            BakedObjectIds = other.BakedObjectIds != null
+                ? new List<Guid>(other.BakedObjectIds)
+                : null;
+
+            Parameters = other.Parameters != null
+                ? new Dictionary<string, ParameterObject>(other.Parameters)
+                : null;
+
+            outputId = other.outputId;
+            token = other.token;
+
+            GeneratedGeometries = other.GeneratedGeometries != null
+                ? new List<object>(other.GeneratedGeometries)
+                : null;
+
+            ModelId = other.ModelId;
+        }
 
     public Data Clone()
     {
