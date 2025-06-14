@@ -151,7 +151,7 @@ namespace RhinoInsideRhino.ObjectModel
                     string txt_out = reader.ReadToEnd();
                     output = txt_out;
                 }
-        }
+            }
 
             // Decompress the response
             string decompressedOutput = Decompress(output);
@@ -159,19 +159,19 @@ namespace RhinoInsideRhino.ObjectModel
             var outputData = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput);
         }
         public static string Compress(string text)
-    {
-        if (string.IsNullOrEmpty(text))
-            return text;
-        byte[] inputBytes = Encoding.UTF8.GetBytes(text);
-            var output = new MemoryStream();
-        // leaveOpen=true lets us read the MemoryStream after disposing the GZipStream
-        using (var gzip = new GZipStream(output, CompressionLevel.Optimal, leaveOpen: true))
         {
-            gzip.Write(inputBytes, 0, inputBytes.Length);
+            if (string.IsNullOrEmpty(text))
+                return text;
+            byte[] inputBytes = Encoding.UTF8.GetBytes(text);
+            var output = new MemoryStream();
+            // leaveOpen=true lets us read the MemoryStream after disposing the GZipStream
+            using (var gzip = new GZipStream(output, CompressionLevel.Optimal, leaveOpen: true))
+            {
+                gzip.Write(inputBytes, 0, inputBytes.Length);
+            }
+            return Convert.ToBase64String(output.ToArray());
         }
-        return Convert.ToBase64String(output.ToArray());
-    }
-        
+
         public static string Decompress(string base64)
         {
             if (string.IsNullOrEmpty(base64))

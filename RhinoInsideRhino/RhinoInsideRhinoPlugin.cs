@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Rhino;
+using Rhino.UI;
 using RhinoInsideRhino.RhinoHelpers;
 
 
@@ -16,10 +18,6 @@ namespace RhinoInsideRhino
     public class RhinoInsideRhinoPlugin : Rhino.PlugIns.PlugIn
     {
 
-
-
-
-
         private RhinoObjectEventHandler _rhinoObjectEventHandler;
 
         public RhinoInsideRhinoPlugin()
@@ -27,13 +25,13 @@ namespace RhinoInsideRhino
             Instance = this;
 
             _rhinoObjectEventHandler = new RhinoObjectEventHandler();
-           
+
 
         }
 
 
-        
-        
+
+
         ///<summary>Gets the only instance of the RhinoInsideRhinoPlugin plug-in.</summary>
         public static RhinoInsideRhinoPlugin Instance { get; private set; }
 
