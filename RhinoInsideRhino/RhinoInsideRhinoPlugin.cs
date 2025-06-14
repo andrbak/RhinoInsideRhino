@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Rhino;
+using Rhino.UI;
 using RhinoInsideRhino.RhinoHelpers;
 
 
@@ -16,10 +18,6 @@ namespace RhinoInsideRhino
     public class RhinoInsideRhinoPlugin : Rhino.PlugIns.PlugIn
     {
 
-
-
-
-
         private RhinoObjectEventHandler _rhinoObjectEventHandler;
 
         public RhinoInsideRhinoPlugin()
@@ -27,18 +25,24 @@ namespace RhinoInsideRhino
             Instance = this;
 
             _rhinoObjectEventHandler = new RhinoObjectEventHandler();
-           
+
 
         }
 
 
-        
-        
+
+
         ///<summary>Gets the only instance of the RhinoInsideRhinoPlugin plug-in.</summary>
         public static RhinoInsideRhinoPlugin Instance { get; private set; }
 
         // You can override methods here to change the plug-in behavior on
         // loading and shut down, add options pages to the Rhino _Option command
         // and maintain plug-in wide options in a document.
+
+        protected override void ObjectPropertiesPages(List<ObjectPropertiesPage> pages)
+        {
+            var page = new Views.HostObjectPropertiesPage();
+            pages.Add(page);
+        }
     }
 }
