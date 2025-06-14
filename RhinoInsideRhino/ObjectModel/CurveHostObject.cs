@@ -152,8 +152,6 @@ namespace RhinoInsideRhino.ObjectModel
             return Encoding.UTF8.GetString(output.ToArray());
         }
 
-            RhinoApp.WriteLine($"Object ({Id}) has been updated!");
-        }
 
         public void AttachMacro(string modelId)
         {

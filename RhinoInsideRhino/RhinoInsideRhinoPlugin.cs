@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Rhino;
 using Rhino.UI;
+using Rhino.UI.DialogPanels;
 using RhinoInsideRhino.RhinoHelpers;
 using RhinoInsideRhino.Views;
 

@@ -1,7 +1,9 @@
 ﻿using Eto.Drawing;
 using Eto.Forms;
+using Newtonsoft.Json;
 using Rhino.Render.Fields;
 using Rhino.UI;
+using RhinoInsideRhino.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,8 @@ using System.Linq;
 
 namespace RhinoInsideRhino.Views
 {
+
+
     /// <summary>
     /// Required class GUID, used as the panel Id
     /// </summary>
@@ -29,37 +33,7 @@ namespace RhinoInsideRhino.Views
 
         private string selectedFolder;
 
-        public class Macro
-        {
-            [JsonProperty("name")]
-            public string Name { get; set; }
 
-            [JsonProperty("description")]
-            public string Description { get; set; }
-
-            [JsonProperty("img_path")]
-            public string ImagePath { get; set; }
-
-            [JsonProperty("author")]
-            public string Author { get; set; }
-
-            [JsonProperty("model_id")]
-            public string ModelId { get; set; } = string.Empty;
-
-            [JsonProperty("version")]
-            public string Version { get; set; }
-
-            [JsonProperty("gh_doc_uuid")]
-            public string GhDocUuid { get; set; }
-
-            [JsonProperty("timestamp")]
-            public DateTime Timestamp { get; set; }
-
-            public static Macro FromJson(string json)
-            {
-                return JsonConvert.DeserializeObject<Macro>(json);
-            }
-        }
 
 
 
