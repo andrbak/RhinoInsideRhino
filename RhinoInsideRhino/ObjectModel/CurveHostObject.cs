@@ -14,11 +14,8 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using Newtonsoft.Json.Linq;
-=======
 using RhinoInsideRhino.Display;
->>>>>>> d6f23f8978be84eb774cf5e436e975d7c8cac68d
 
 namespace RhinoInsideRhino.ObjectModel
 {
@@ -56,11 +53,11 @@ namespace RhinoInsideRhino.ObjectModel
         {
 
 
-           
 
 
-   
-         
+
+
+
             if (this.CurveGeometry != null)
                 //GeometryPreview.ShowOrUpdateCurve(this.CurveGeometry, color, thickness);
                 GeometryPreview.Show(this.CurveGeometry, IsSelected(false) == 2 ? DefaultStyleProperties.SelectedStyle : DefaultStyleProperties.BaseStyle);
