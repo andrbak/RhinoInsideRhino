@@ -22,15 +22,7 @@ public static class ParameterParser
 
             ParameterObject param = null;
 
-            if (type == "TEXT")
-            {
-                param = new TextParameterObject
-                {
-                    Name = name,
-                    Value = null
-                };
-            }
-            else if (type == "NUMBER" && style == "slider")
+            if (type == "NUMBER" && style == "slider")
             {
                 param = new SliderParameterObject
                 {

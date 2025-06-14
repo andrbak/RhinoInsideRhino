@@ -240,6 +240,9 @@ namespace RhinoInsideRhino.Views
                         string json = ""; //TODO: compute script and get parameters
 
                         var parameters = ParameterParser.ParseInputs(json);
+
+                        curveHostObjects.Data.Parameters = parameters;
+
                     }
 
 

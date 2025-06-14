@@ -29,19 +29,6 @@ namespace RhinoInsideRhino.ObjectModel
     }
 
 
-    public class TextParameterObject : ParameterObject
-    {
-        public TextParameterObject()
-        {
-            Type = "Text";
-        }
-
-        public override Control GetEtoControl()
-        {
-           return new Label() { Text = Name };
-        }
-    }
-
 
     public class DropDownParameterObject : ParameterObject
     {
