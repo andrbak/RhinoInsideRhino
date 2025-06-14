@@ -11,7 +11,7 @@ public class Data
 
     public Dictionary<Guid, string> Parameters { get; set; }
 
-    public GeometryBase GeneratedGeometry { get; set; }
+    public List<object> GeneratedGeometries { get; set; }
 
     Guid ModelId { get; set; } = Guid.Empty;
 
