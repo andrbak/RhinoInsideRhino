@@ -20,7 +20,7 @@ namespace RhinoInsideRhino
 
 
 
-        private RhinoObjectEventHandler _rhinoObjectEventHandler = new RhinoObjectEventHandler();
+        private RhinoObjectEventHandler _rhinoObjectEventHandler;
 
         public RhinoInsideRhinoPlugin()
         {
@@ -30,6 +30,9 @@ namespace RhinoInsideRhino
            
 
         }
+
+
+        
         
         ///<summary>Gets the only instance of the RhinoInsideRhinoPlugin plug-in.</summary>
         public static RhinoInsideRhinoPlugin Instance { get; private set; }

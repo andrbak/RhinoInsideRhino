@@ -11,6 +11,9 @@ namespace RhinoInsideRhino.RhinoHelpers
     {
 
 
+        private bool _isOpeningDocument = false;
+
+
         public RhinoObjectEventHandler()
         {
             Register();
@@ -24,6 +27,8 @@ namespace RhinoInsideRhino.RhinoHelpers
 
         private void Register()
         {
+            //RhinoApp.WriteLine("Registering event handlers.");
+
             RhinoDoc.AddRhinoObject += OnAddRhinoObject;
             RhinoDoc.ReplaceRhinoObject += OnReplaceRhinoObject;
             RhinoDoc.DeleteRhinoObject += OnDeleteRhinoObject;
@@ -31,26 +36,33 @@ namespace RhinoInsideRhino.RhinoHelpers
             RhinoDoc.SelectObjects += OnSelectRhinoObjects;
             RhinoDoc.DeselectObjects += OnDeselectRhinoObjects;
             RhinoDoc.DeselectAllObjects += OnDeselectAllRhinoObjects;
+
+            RhinoDoc.BeginOpenDocument += OnBeginOpenDocument;
+            RhinoDoc.EndOpenDocument += OnEndOpenDocument;
         }
 
-        private void OnReplaceRhinoObject(object sender, RhinoReplaceObjectEventArgs e)
+        private void OnBeginOpenDocument(object sender, DocumentOpenEventArgs e)
         {
-            if (e.OldRhinoObject is IHostObject hostObject)
-            {
-                RhinoApp.WriteLine("Replaced host object: " + hostObject.GetType().Name + " with Id: " + e.OldRhinoObject.Id + ".");
-                RhinoApp.WriteLine("With object: " + e.NewRhinoObject.GetType().Name + " with Id: " + e.OldRhinoObject.Id + ".");
-            }
+            _isOpeningDocument = true;
+        }
+
+        private void OnEndOpenDocument(object sender, DocumentOpenEventArgs e)
+        {
+            _isOpeningDocument = false;
         }
 
         private void UnRegister()
         {
             RhinoDoc.AddRhinoObject -= OnAddRhinoObject;
-            RhinoDoc.ReplaceRhinoObject += OnReplaceRhinoObject;
+            RhinoDoc.ReplaceRhinoObject -= OnReplaceRhinoObject;
             RhinoDoc.DeleteRhinoObject -= OnDeleteRhinoObject;
             RhinoDoc.UndeleteRhinoObject -= OnUndeleteRhinoObject;
             RhinoDoc.SelectObjects -= OnSelectRhinoObjects;
             RhinoDoc.DeselectObjects -= OnDeselectRhinoObjects;
             RhinoDoc.DeselectAllObjects -= OnDeselectAllRhinoObjects;
+
+            RhinoDoc.BeginOpenDocument -= OnBeginOpenDocument;
+            RhinoDoc.EndOpenDocument -= OnEndOpenDocument;
         }
 
 
@@ -58,10 +70,6 @@ namespace RhinoInsideRhino.RhinoHelpers
 
         public bool TryReplaceWithCustomObject(RhinoObject originalObject)
         {
-
-          
-
-
 
             if (originalObject is IHostObject || !originalObject.Attributes.HasUserData)
                 return false;
@@ -84,6 +92,15 @@ namespace RhinoInsideRhino.RhinoHelpers
             return false;
         }
 
+        private void OnReplaceRhinoObject(object sender, RhinoReplaceObjectEventArgs e)
+        {
+            if (e.OldRhinoObject is IHostObject hostObject)
+            {
+                //RhinoApp.WriteLine("Replaced host object: " + hostObject.GetType().Name + " with Id: " + e.OldRhinoObject.Id + ".");
+                //RhinoApp.WriteLine("With object: " + e.NewRhinoObject.GetType().Name + " with Id: " + e.OldRhinoObject.Id + ".");
+            }
+        }
+
 
         private void OnAddRhinoObject(object sender, RhinoObjectEventArgs e)
         {
@@ -95,9 +112,9 @@ namespace RhinoInsideRhino.RhinoHelpers
                 return;
 
 
-            if (obj is IHostObject hostObject)
+            if (obj is IHostObject hostObject && !_isOpeningDocument)
             {
-                RhinoApp.WriteLine("Added host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
+                //RhinoApp.WriteLine("Added host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
 
                 hostObject.Update();
             }
@@ -110,7 +127,7 @@ namespace RhinoInsideRhino.RhinoHelpers
 
             if (e.TheObject is IHostObject hostObject)
             {
-                RhinoApp.WriteLine("Deleted host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
+                //RhinoApp.WriteLine("Deleted host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
             }
         }
 
@@ -118,7 +135,7 @@ namespace RhinoInsideRhino.RhinoHelpers
         {
             if (e.TheObject is IHostObject hostObject)
             {
-                RhinoApp.WriteLine("Undeleted host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
+                //RhinoApp.WriteLine("Undeleted host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
             }
         }
 
@@ -128,7 +145,7 @@ namespace RhinoInsideRhino.RhinoHelpers
                                .OfType<IHostObject>()
                                .ToArray();
 
-            RhinoApp.WriteLine("Selected " + hostObjects.Length + " host object(s), total selected: " + e.RhinoObjects.Length + " object(s).");
+            //RhinoApp.WriteLine("Selected " + hostObjects.Length + " host object(s), total selected: " + e.RhinoObjects.Length + " object(s).");
         }
 
         private void OnDeselectRhinoObjects(object sender, RhinoObjectSelectionEventArgs e)
@@ -137,7 +154,7 @@ namespace RhinoInsideRhino.RhinoHelpers
                                .OfType<IHostObject>()
                                .ToArray();
 
-            RhinoApp.WriteLine("Deselected " + hostObjects.Length + " host object(s), total deselected: " + e.RhinoObjects.Length + " object(s).");
+            //RhinoApp.WriteLine("Deselected " + hostObjects.Length + " host object(s), total deselected: " + e.RhinoObjects.Length + " object(s).");
         }
 
         private void OnDeselectAllRhinoObjects(object sender, RhinoDeselectAllObjectsEventArgs e)

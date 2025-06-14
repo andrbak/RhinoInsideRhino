@@ -1,4 +1,5 @@
-﻿using Rhino.Display;
+﻿using Rhino;
+using Rhino.Display;
 using Rhino.DocObjects.Custom;
 using Rhino.Geometry;
 using System;
@@ -101,6 +102,8 @@ namespace RhinoInsideRhino.ObjectModel
         public void Update()
         {
             //Call Compute here!
+
+            RhinoApp.WriteLine($"Object ({Id}) has been updated!");
         }
     }
 }
