@@ -15,7 +15,7 @@ namespace RhinoInsideRhino.ObjectModel
     {
         private CurveHostUserData _userData => this.Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
 
-        public SerializableData Data => _userData.Data;
+        public Data Data => _userData.Data;
 
         public CurveHostObject() : this(new LineCurve())
         {
@@ -52,6 +52,11 @@ namespace RhinoInsideRhino.ObjectModel
             e.Display.DrawCurve(this.CurveGeometry, color, thickness);
    
 
+        }
+
+        public void Update()
+        {
+            //Call Compute here!
         }
     }
 }

@@ -19,13 +19,13 @@ namespace RhinoInsideRhino.ObjectModel
     public class CurveHostUserData : UserData, IHostUserData
     {
 
-     public SerializableData Data { get; set; } = new SerializableData();
+     public Data Data { get; set; } = new Data();
 
     public override bool ShouldWrite => true;
 
     public CurveHostUserData()
     {
-            Data = new SerializableData();
+            Data = new Data();
     }
 
     protected override void OnDuplicate(UserData source)
@@ -48,7 +48,7 @@ namespace RhinoInsideRhino.ObjectModel
             var options = new JsonSerializerOptions();
             options.Converters.Add(new ColorJsonConverter());
 
-            Data = JsonSerializer.Deserialize<SerializableData>(jsonString, options);
+            Data = JsonSerializer.Deserialize<Data>(jsonString, options);
 
             return true;
         }

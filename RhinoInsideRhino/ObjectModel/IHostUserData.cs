@@ -2,7 +2,7 @@
 {
     public interface IHostUserData
     {
-        SerializableData Data { get; set; }
+        Data Data { get; set; }
     }
 
     }

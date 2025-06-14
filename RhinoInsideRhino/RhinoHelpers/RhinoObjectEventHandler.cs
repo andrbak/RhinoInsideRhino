@@ -98,6 +98,8 @@ namespace RhinoInsideRhino.RhinoHelpers
             if (obj is IHostObject hostObject)
             {
                 RhinoApp.WriteLine("Added host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
+
+                hostObject.Update();
             }
         }
 
