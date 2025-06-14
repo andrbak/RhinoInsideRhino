@@ -1,5 +1,6 @@
 ﻿using System;
 using Rhino;
+using RhinoInsideRhino.ObjectModel;
 
 namespace RhinoInsideRhino
 {
@@ -13,9 +14,20 @@ namespace RhinoInsideRhino
     ///</summary>
     public class RhinoInsideRhinoPlugin : Rhino.PlugIns.PlugIn
     {
+
+
+
+
+
+        private RhinoObjectEventHandler _rhinoObjectEventHandler = new RhinoObjectEventHandler();
+
         public RhinoInsideRhinoPlugin()
         {
             Instance = this;
+
+            _rhinoObjectEventHandler = new RhinoObjectEventHandler();
+           
+
         }
         
         ///<summary>Gets the only instance of the RhinoInsideRhinoPlugin plug-in.</summary>

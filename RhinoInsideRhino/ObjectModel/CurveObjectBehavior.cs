@@ -6,7 +6,26 @@ using System.Threading.Tasks;
 
 namespace RhinoInsideRhino.ObjectModel
 {
-    class CurveObjectBehavior
+
+
+
+    class ObjectBehavior
     {
+
+        HostUserData userData;
+
+
+        // Base class for object behaviors
+    }
+
+
+
+    class CurveObjectBehavior : ObjectBehavior
+    {
+
+
+
+
+
     }
 }
