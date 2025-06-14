@@ -1,7 +1,9 @@
 ﻿using Rhino.Geometry;
+using RhinoInsideRhino.ObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+
 
 
 [Serializable]
@@ -9,7 +11,7 @@ public class Data
     {
 
 
-    public Dictionary<Guid, string> Parameters { get; set; }
+    public Dictionary<string, ParameterObject> Parameters { get; set; }
 
     public List<object> GeneratedGeometries { get; set; }
 

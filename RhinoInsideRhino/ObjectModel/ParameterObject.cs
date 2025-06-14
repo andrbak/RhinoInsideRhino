@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RhinoInsideRhino.ObjectModel
 {
-    class ParameterObject
+    public class ParameterObject
     {
 
         public string Type { get; set; }
