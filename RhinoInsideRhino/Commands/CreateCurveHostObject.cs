@@ -79,7 +79,7 @@ namespace RhinoInsideRhino.Commands
                 CurveHostObject curveHostObjects = new CurveHostObject(curve);
                 curveHostObjects.Data.Parameters = new Dictionary<string, ParameterObject>
                 {
-                    ["pelemt_ht"] = new ParameterObject { Type = "Slider", Value = 2.7 },
+                    ["pelmet_ht"] = new ParameterObject { Type = "Slider", Value = 2.7 },
                     ["close_percent"] = new ParameterObject { Type = "Slider", Value = 62.0 },
                     ["open_location"] = new ParameterObject { Type = "Slider", Value = 1 }
                 };

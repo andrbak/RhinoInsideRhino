@@ -13,6 +13,7 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace RhinoInsideRhino.ObjectModel
 {
@@ -109,7 +110,8 @@ namespace RhinoInsideRhino.ObjectModel
             // Serialize the data to JSON
             var inputsJson = new Dictionary<string, object>
             {
-                ["txt_in"] = Compress(Geometry.ToJSON(new Rhino.FileIO.SerializationOptions()))
+                
+                ["txt_in"] = Compress(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string[]> { ["geometry"] = new List<string> { Geometry.ToJSON(new Rhino.FileIO.SerializationOptions()), }.ToArray() }))
             };
             foreach (KeyValuePair<string, ParameterObject> parameter in Data.Parameters)
             {
@@ -128,6 +130,26 @@ namespace RhinoInsideRhino.ObjectModel
             // Construct the HTTP POST request
             RhinoApp.WriteLine(requestBody.ToString());
             RhinoApp.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
+            var request1 = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/configurator?projectId=F6rZ0t1o");
+            request1.Method = "GET";
+            //request1.ContentType = "application/json";
+            //request1.UserAgent = "AecTech25Hack";
+            request1.Headers.Add("Authorization", $"Bearer {Data.token}");
+            // Send the request to Modelup
+
+            string output1 = string.Empty;
+            // Read and display the server response
+            using (WebResponse response = request1.GetResponse())
+            {
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string txt_out = reader.ReadToEnd();
+                    output1 = txt_out;
+                }
+            }
+
+            RhinoApp.WriteLine(output1);
+
             var request = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/compute?outputId=" + Data.outputId);
             request.Method = "POST";
             request.ContentType = "application/json";
@@ -154,9 +176,14 @@ namespace RhinoInsideRhino.ObjectModel
             }
 
             // Decompress the response
-            string decompressedOutput = Decompress(output);
+            var decompressedOutputs = JObject.Parse(Decompress(output))["geometry"];
             // Deserialize the response
-            var outputData = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput);
+            var outputData = new List<Rhino.Geometry.GeometryBase>();
+            foreach (var decompressedOutput in decompressedOutputs)
+            {
+               var _geom = (Rhino.Geometry.GeometryBase)Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                outputData.Add(_geom);
+            };
         }
         public static string Compress(string text)
         {
