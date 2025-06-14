@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Rhino;
 using Rhino.UI;
 using RhinoInsideRhino.RhinoHelpers;
-
+using RhinoInsideRhino.Views;
 
 namespace RhinoInsideRhino
 {
@@ -24,11 +24,33 @@ namespace RhinoInsideRhino
         {
             Instance = this;
 
+
+        
+
+            // Register the RhinoObjectEventHandler to handle Rhino object events
             _rhinoObjectEventHandler = new RhinoObjectEventHandler();
 
+            // Register the Eto main panel
+            Panels.RegisterPanel(this, typeof(MainPanel), "RhinoInsideRhino", null);
 
+            RhinoApp.Idle += OnIdle;
         }
 
+
+        private void OnIdle(object sender, System.EventArgs e)
+        {
+            RhinoApp.Idle -= OnIdle;
+            OpenMainPanel();
+        }
+
+        public void OpenMainPanel()
+        {
+            var panelId = typeof(MainPanel).GUID;
+            if (!Panels.IsPanelVisible(panelId))
+            {
+                Panels.OpenPanel(Panels.PanelDockBar(typeof(LayersPanel)), panelId);
+            }
+        }
 
 
 

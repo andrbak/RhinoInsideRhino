@@ -1,4 +1,5 @@
-﻿using Rhino;
+﻿using Eto.Forms;
+using Rhino;
 using Rhino.Display;
 using Rhino.DocObjects.Custom;
 using Rhino.Geometry;
@@ -150,6 +151,92 @@ namespace RhinoInsideRhino.ObjectModel
             gzip.CopyTo(output);
             return Encoding.UTF8.GetString(output.ToArray());
         }
+
+            RhinoApp.WriteLine($"Object ({Id}) has been updated!");
+        }
+
+        public void AttachMacro(string modelId)
+        {
+
+            // Set ModelId in Data
+            Data.ModelId = modelId;
+
+            //Call compute here to get input parameters
+
+            //Populate Data.Parameters with input parameters (parse json to ParameterObjects of the correct type)
+
+            //For now just some hard coded values
+            Data.Parameters = new Dictionary<string, ParameterObject>
+            {
+                { "Parameter1", new SliderParameterObject() {Name = "Thickness", Value = 5} }
+            };
+        }
+
+
+
+
+
+
+
+        public void BakeGeneratedGeometry()
+        {
+
+
+            //Delete existing baked geometries
+            foreach (var id in Data.BakedObjectIds)
+            {
+                if (RhinoDoc.ActiveDoc.Objects.Find(id) is Rhino.DocObjects.RhinoObject obj)
+                {
+                    RhinoDoc.ActiveDoc.Objects.Delete(obj, true);
+                }
+            }
+
+
+            foreach (var geom in Data.GeneratedGeometries)
+            {
+                if (geom == null)
+                    continue;
+
+                if (geom is Curve curve)
+                {
+                    var id = RhinoDoc.ActiveDoc.Objects.AddCurve(curve);
+                    Data.BakedObjectIds.Add(id);
+
+                }
+                else if (geom is Brep brep)
+                {
+                    var id = RhinoDoc.ActiveDoc.Objects.AddBrep(brep);
+                    Data.BakedObjectIds.Add(id);
+                }
+                else if (geom is Mesh mesh)
+                {
+                    var id = RhinoDoc.ActiveDoc.Objects.AddMesh(mesh);
+                    Data.BakedObjectIds.Add(id);
+                }
+
+                else if (geom is Point3d pt)
+                {
+                    var id = RhinoDoc.ActiveDoc.Objects.AddPoint(pt);
+                    Data.BakedObjectIds.Add(id);
+                }
+                else if (geom is Line line)
+                {
+                    var id = RhinoDoc.ActiveDoc.Objects.AddLine(line);
+                    Data.BakedObjectIds.Add(id);
+                }
+                else if (geom is Polyline polyline)
+                {
+                    var id = RhinoDoc.ActiveDoc.Objects.AddPolyline(polyline);
+                    Data.BakedObjectIds.Add(id);
+
+                    // Add more types as needed
+                }
+
+
+            }
+
+        }
+
 
     }
 }

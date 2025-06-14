@@ -11,6 +11,11 @@ public class Data
     {
 
 
+
+    public bool DisplayOnly { get; set; } = true;
+
+    public List<Guid> BakedObjectIds { get; set; } = new List<Guid>();
+
     public Dictionary<string, ParameterObject> Parameters { get; set; }
 
     public string outputId { get; set; } = string.Empty;
@@ -19,7 +24,7 @@ public class Data
 
     public List<object> GeneratedGeometries { get; set; }
 
-    public Guid ModelId { get; set; } = Guid.Empty;
+    public string ModelId { get; set; } = "";
 
 
 
@@ -41,13 +46,6 @@ public class Data
         {
             return new Data(this);
         }
-
-
-
-
-
-
-
 
 
 }
