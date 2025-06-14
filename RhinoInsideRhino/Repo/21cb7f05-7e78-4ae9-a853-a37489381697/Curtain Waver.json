@@ -1,0 +1,10 @@
+{
+    "img_path": "Curtain Waver.png", 
+    "description": "This Grasshopper script generates parametric curtains using sine curves for natural wave motion. Users control wave frequency, height, and fabric length. Adjustable anchor points define curtain width and hanging style, while optional randomness adds realism.", 
+    "timestamp": "2025-06-14 20:07:02", 
+    "model_id": "GHX-74B9-KL23", 
+    "version": "0.0.1", 
+    "gh_doc_uuid": "21cb7f05-7e78-4ae9-a853-a37489381697", 
+    "author": "Bob", 
+    "name": "Curtain Waver"
+}
