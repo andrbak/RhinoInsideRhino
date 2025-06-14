@@ -121,13 +121,13 @@ namespace RhinoInsideRhino.ObjectModel
                 ["inputs"] = inputsJson,
                 ["model"] = new Dictionary<string, string>
                 {
-                    ["model"] = Data.ModelId.ToString(),
+                    ["id"] = Data.ModelId.ToString(),
                     ["type"] = "GH"
                 }
             };
             // Construct the HTTP POST request
-
-            RhinoApp.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody).ToString());
+            RhinoApp.WriteLine(requestBody.ToString());
+            RhinoApp.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
             var request = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/compute?outputId=" + Data.outputId);
             request.Method = "POST";
             request.ContentType = "application/json";
