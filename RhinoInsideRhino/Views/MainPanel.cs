@@ -1,6 +1,7 @@
 ﻿using Eto.Drawing;
 using Eto.Forms;
 using Newtonsoft.Json;
+using Rhino;
 using Rhino.Geometry;
 using Rhino.Render.Fields;
 using Rhino.UI;
@@ -242,6 +243,12 @@ namespace RhinoInsideRhino.Views
                         var parameters = ParameterParser.ParseInputs(json);
 
                         curveHostObjects.Data.Parameters = parameters;
+
+                        RhinoDoc.ActiveDoc.Objects.AddRhinoObject(curveHostObjects, curve);
+
+                        // Delete original object
+                        RhinoDoc.ActiveDoc.Objects.Delete(obj, true);
+                        
 
                     }
 

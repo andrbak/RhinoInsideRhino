@@ -1,0 +1,148 @@
+﻿{
+  "data": {
+    "getProject": {
+      "cacheStrategy": null,
+      "cacheProvider": null,
+      "computeServer": {
+        "serverName": "wilfred-r8"
+      },
+      "activeModel": {
+        "id": "7259ec95-db09-4100-8f4e-d2fcfc4bad28",
+        "inputs": [
+          {
+            "id": "pelemt_ht",
+            "ghId": "452fad2d-f897-4481-93a2-b01e99825e59",
+            "type": "NUMBER",
+            "style": "slider",
+            "name": "Pelmet Height",
+            "description": null,
+            "outputs": [
+              "txt_out"
+            ],
+            "numberValue": 2.7,
+            "min": 2.0,
+            "max": 4.0,
+            "decimalPlaces": 1,
+            "booleanValue": null,
+            "selectValue": null,
+            "selectOptions": null
+          },
+          {
+            "id": "close_percent",
+            "ghId": "5333cacf-ec05-42a2-ac3e-ff1ea2b1354d",
+            "type": "NUMBER",
+            "style": "slider",
+            "name": "Close percentage",
+            "description": null,
+            "outputs": [
+              "txt_out"
+            ],
+            "numberValue": 62.0,
+            "min": 10.0,
+            "max": 100.0,
+            "decimalPlaces": 0,
+            "booleanValue": null,
+            "selectValue": null,
+            "selectOptions": null
+          },
+          {
+            "id": "open_location",
+            "ghId": "b9c88ece-2fb4-4963-aeef-00fea5f5f9fb",
+            "type": "SELECT",
+            "style": "dropdown",
+            "name": "Opening Location",
+            "description": null,
+            "outputs": [
+              "txt_out"
+            ],
+            "numberValue": null,
+            "min": null,
+            "max": null,
+            "decimalPlaces": null,
+            "booleanValue": null,
+            "selectValue": [
+              1
+            ],
+            "selectOptions": [
+              {
+                "color": null,
+                "description": null,
+                "imageUrl": null,
+                "image": null,
+                "text": "Middle Open",
+                "value": "0"
+              },
+              {
+                "color": null,
+                "description": null,
+                "imageUrl": null,
+                "image": null,
+                "text": "OneSide Open",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "id": "txt_in",
+            "ghId": "33256eff-894e-4bf2-95e6-ed723b0e2940",
+            "type": "TEXT",
+            "style": "default",
+            "name": "txt_in",
+            "description": null,
+            "outputs": [
+              "txt_out"
+            ],
+            "numberValue": null,
+            "min": null,
+            "max": null,
+            "decimalPlaces": null,
+            "booleanValue": null,
+            "selectValue": null,
+            "selectOptions": null
+          }
+        ],
+        "projects": {
+          "items": []
+        },
+        "outputs": [
+          {
+            "id": "txt_out",
+            "type": "String"
+          }
+        ],
+        "configuratorInterface": null,
+        "configuratorOutputs": {
+          "syncState": null,
+          "hostMessage": null,
+          "scene": null
+        }
+      },
+      "modelInputSettings": null,
+      "interfaceSettings": {
+        "showPoweredByUs": null,
+        "scene": {
+          "environmentMapUrl": null,
+          "environmentMapIntensity": null,
+          "softGroundShadow": null,
+          "ambientLight": null,
+          "camera": {
+            "position": null,
+            "target": null,
+            "autoTargetYMode": null,
+            "autoTargetYThreshold": null,
+            "autoTargetY": null,
+            "autoTargetXZMode": null,
+            "autoTargetXZThreshold": null
+          }
+        },
+        "theme": {
+          "sceneBackground": null
+        }
+      },
+      "i18n": {
+        "defaultLanguage": null,
+        "translations": null
+      }
+    }
+  }
+}
