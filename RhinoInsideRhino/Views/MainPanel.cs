@@ -1,6 +1,8 @@
 ﻿using Eto.Drawing;
 using Eto.Forms;
 using Newtonsoft.Json;
+using Rhino;
+using Rhino.Geometry;
 using Rhino.Render.Fields;
 using Rhino.UI;
 using RhinoInsideRhino.ObjectModel;
@@ -33,7 +35,7 @@ namespace RhinoInsideRhino.Views
 
         private string selectedFolder;
 
-
+        private ListBox listBox;
 
 
 
@@ -54,12 +56,12 @@ namespace RhinoInsideRhino.Views
         {
 
             // Sample data
-            var items = new List<Macro>
-            {
-                new Macro { Name = "Apple", Description = "A juicy red fruit." },
-                new Macro { Name = "Banana", Description = "A long yellow fruit." },
-                new Macro { Name = "Cherry", Description = "A small red fruit." }
-            };
+            //var items = new List<Macro>
+            //{
+            //    new Macro { Name = "Apple", Description = "A juicy red fruit." },
+            //    new Macro { Name = "Banana", Description = "A long yellow fruit." },
+            //    new Macro { Name = "Cherry", Description = "A small red fruit." }
+            //};
 
 
 
@@ -70,17 +72,18 @@ namespace RhinoInsideRhino.Views
                 if (dlg.ShowDialog(this) == DialogResult.Ok)
                 {
                     selectedFolder = dlg.Directory;
-                    //MessageBox.Show(this, "Selected folder: " + dlg.Directory, "Folder Selected");
+                    MessageBox.Show(this, "Selected folder: " + selectedFolder, "Folder Selected");
+
+                    // Reload macros from the new folder and update the list
+                    var macros = MacroLoader.LoadMacrosFromSubfolders(selectedFolder);
+                    listBox.DataStore = macros;
                 }
             };
 
-
-
-            //List Box
-            var listBox = new ListBox
+            listBox = new ListBox
             {
-                DataStore = items,
-               ItemTextBinding = Binding.Delegate<Macro, string>(m => m.Name)
+                DataStore = new List<Macro>(), // Start empty
+                ItemTextBinding = Binding.Delegate<Macro, string>(m => m.Name)
             };
 
             // Selected label
@@ -103,6 +106,7 @@ namespace RhinoInsideRhino.Views
             // Layout
             var layout = new DynamicLayout { DefaultSpacing = new Size(5, 5), Padding = new Padding(10) };
 
+            layout.AddSeparateRow(selectFolderButton);
             layout.AddSeparateRow(new Label { Text = "Select Macro" }, null);
             layout.AddRow(listBox);
             layout.AddRow(selectedLabel);
@@ -224,11 +228,43 @@ namespace RhinoInsideRhino.Views
 
                 foreach (var obj in selectedObjects)
                 {
+
+                    if (obj.Geometry is Curve curve)
+                    {
+
+                        CurveHostObject curveHostObjects = new CurveHostObject(curve);
+
+                        curveHostObjects.Data.ModelId = selectedMacro.ModelId;
+
+
+
+                        string json = ""; //TODO: compute script and get parameters
+
+                        var parameters = ParameterParser.ParseInputs(json);
+
+                        curveHostObjects.Data.Parameters = parameters;
+
+                        RhinoDoc.ActiveDoc.Objects.AddRhinoObject(curveHostObjects, curve);
+
+                        // Delete original object
+                        RhinoDoc.ActiveDoc.Objects.Delete(obj, true);
+                        
+
+                    }
+
+
+
+
+
+
+
                     message += "\n";
                     message += obj.Id;
                 }
 
                 Dialogs.ShowMessage(message, Title);
+
+                
 
 
 
