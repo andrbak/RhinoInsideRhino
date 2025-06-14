@@ -110,7 +110,7 @@ namespace RhinoInsideRhino.ObjectModel
             // Serialize the data to JSON
             var inputsJson = new Dictionary<string, object>
             {
-                
+
                 ["txt_in"] = Compress(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string[]> { ["geometry"] = new List<string> { Geometry.ToJSON(new Rhino.FileIO.SerializationOptions()), }.ToArray() }))
             };
             foreach (KeyValuePair<string, ParameterObject> parameter in Data.Parameters)
@@ -181,9 +181,10 @@ namespace RhinoInsideRhino.ObjectModel
             var outputData = new List<Rhino.Geometry.GeometryBase>();
             foreach (var decompressedOutput in decompressedOutputs)
             {
-               var _geom = (Rhino.Geometry.GeometryBase)Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                var _geom = (Rhino.Geometry.GeometryBase)Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
                 outputData.Add(_geom);
-            };
+            }
+            ;
         }
         public static string Compress(string text)
         {
