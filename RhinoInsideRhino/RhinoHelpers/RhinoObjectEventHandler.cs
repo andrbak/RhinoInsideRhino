@@ -1,9 +1,11 @@
 ﻿using Rhino;
 using Rhino.DocObjects;
+using RhinoInsideRhino.ObjectModel;
 using System;
 using System.Linq;
 
-namespace RhinoInsideRhino.ObjectModel
+namespace RhinoInsideRhino.RhinoHelpers
+
 {
     class RhinoObjectEventHandler
     {
@@ -23,7 +25,7 @@ namespace RhinoInsideRhino.ObjectModel
         private void Register()
         {
             RhinoDoc.AddRhinoObject += OnAddRhinoObject;
-            //RhinoDoc.ReplaceRhinoObject += OnReplaceRhinoObject;
+            RhinoDoc.ReplaceRhinoObject += OnReplaceRhinoObject;
             RhinoDoc.DeleteRhinoObject += OnDeleteRhinoObject;
             RhinoDoc.UndeleteRhinoObject += OnUndeleteRhinoObject;
             RhinoDoc.SelectObjects += OnSelectRhinoObjects;
@@ -31,10 +33,19 @@ namespace RhinoInsideRhino.ObjectModel
             RhinoDoc.DeselectAllObjects += OnDeselectAllRhinoObjects;
         }
 
+        private void OnReplaceRhinoObject(object sender, RhinoReplaceObjectEventArgs e)
+        {
+            if (e.OldRhinoObject is IHostObject hostObject)
+            {
+                RhinoApp.WriteLine("Replaced host object: " + hostObject.GetType().Name + " with Id: " + e.OldRhinoObject.Id + ".");
+                RhinoApp.WriteLine("With object: " + e.NewRhinoObject.GetType().Name + " with Id: " + e.OldRhinoObject.Id + ".");
+            }
+        }
+
         private void UnRegister()
         {
             RhinoDoc.AddRhinoObject -= OnAddRhinoObject;
-            //RhinoDoc.ReplaceRhinoObject += OnReplaceRhinoObject;
+            RhinoDoc.ReplaceRhinoObject += OnReplaceRhinoObject;
             RhinoDoc.DeleteRhinoObject -= OnDeleteRhinoObject;
             RhinoDoc.UndeleteRhinoObject -= OnUndeleteRhinoObject;
             RhinoDoc.SelectObjects -= OnSelectRhinoObjects;
@@ -42,9 +53,49 @@ namespace RhinoInsideRhino.ObjectModel
             RhinoDoc.DeselectAllObjects -= OnDeselectAllRhinoObjects;
         }
 
+
+
+
+        public bool TryReplaceWithCustomObject(RhinoObject originalObject)
+        {
+
+          
+
+
+
+            if (originalObject is IHostObject || !originalObject.Attributes.HasUserData)
+                return false;
+
+            foreach (var data in originalObject.Attributes.UserData)
+            {
+
+                if (data is CurveHostUserData userData)
+                {
+                    var customObj = HostObjectFactory.CreateCustomObject(userData, originalObject.Geometry);
+
+                    if (customObj != null)
+                    {
+                        var success = RhinoDoc.ActiveDoc.Objects.Replace(new ObjRef(originalObject), customObj as RhinoObject);
+                        return success;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
         private void OnAddRhinoObject(object sender, RhinoObjectEventArgs e)
         {
-            if (e.TheObject is IHostObject hostObject)
+
+            var obj = e.TheObject;
+
+            // Try replacing with a custom object (will trigger OnAdd again if successful)
+            if (TryReplaceWithCustomObject(obj))
+                return;
+
+
+            if (obj is IHostObject hostObject)
             {
                 RhinoApp.WriteLine("Added host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
             }

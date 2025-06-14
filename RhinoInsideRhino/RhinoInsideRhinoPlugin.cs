@@ -1,6 +1,7 @@
 ﻿using System;
 using Rhino;
-using RhinoInsideRhino.ObjectModel;
+using RhinoInsideRhino.RhinoHelpers;
+
 
 namespace RhinoInsideRhino
 {

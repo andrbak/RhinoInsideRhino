@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RhinoInsideRhino.ObjectModel
 {
-    interface IHostObject
+    public interface IHostObject
     {
 
     }
