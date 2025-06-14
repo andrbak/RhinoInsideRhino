@@ -13,9 +13,13 @@ public class Data
 
     public Dictionary<string, ParameterObject> Parameters { get; set; }
 
+    public string outputId { get; set; } = string.Empty;
+
+    public string token { get; set; } = string.Empty;
+
     public List<object> GeneratedGeometries { get; set; }
 
-    Guid ModelId { get; set; } = Guid.Empty;
+    public Guid ModelId { get; set; } = Guid.Empty;
 
 
 
