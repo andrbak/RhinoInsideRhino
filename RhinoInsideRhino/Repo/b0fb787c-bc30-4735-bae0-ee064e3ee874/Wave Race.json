@@ -1,0 +1,10 @@
+{
+    "img_path": "Wave Race.png", 
+    "description": "This Grasshopper script generates parametric Wave Race using sine curves for natural wave motion. Users control wave frequency, height, and fabric length. Adjustable anchor points define curtain width and hanging style, while optional randomness adds realism.", 
+    "timestamp": "2025-06-15 01:09:38", 
+    "model_id": "GHX-74B9-KL24", 
+    "version": "0.0.1", 
+    "gh_doc_uuid": "b0fb787c-bc30-4735-bae0-ee064e3ee874", 
+    "author": "Bob", 
+    "name": "Wave Race"
+}
