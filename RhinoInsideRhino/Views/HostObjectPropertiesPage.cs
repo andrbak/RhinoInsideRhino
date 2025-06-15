@@ -76,7 +76,7 @@ namespace RhinoInsideRhino.Views
                 {
                     if (_data.Data.ModelId != string.Empty)
                     {
-                        modellist[_data.Data.ModelId.ToString()] = _data.Data.token;
+                        modellist[_data.Data.ModelId.ToString()] = _data.Data.Token;
                     }
                 }
 
@@ -122,7 +122,7 @@ namespace RhinoInsideRhino.Views
                 {
                     if (_data.Data.ModelId != string.Empty)
                     {
-                        modellist[_data.Data.ModelId.ToString()] = _data.Data.token;
+                        modellist[_data.Data.ModelId.ToString()] = _data.Data.Token;
                     }
                 }
 
