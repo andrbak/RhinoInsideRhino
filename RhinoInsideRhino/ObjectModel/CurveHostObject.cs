@@ -172,6 +172,7 @@ namespace RhinoInsideRhino.ObjectModel
             ;
 
             Data.GeneratedGeometries = outputData;
+            Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
 
 
             if (!Data.DisplayOnly)

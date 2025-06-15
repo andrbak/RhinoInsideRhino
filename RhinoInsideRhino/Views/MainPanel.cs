@@ -402,6 +402,7 @@ namespace RhinoInsideRhino.Views
                         //string filePath = @"C:\Users\andreasb\source\repos\RhinoInsideRhino\RhinoInsideRhino\TestData\testData.json";
                         RhinoApp.WriteLine(selectedMacro.ModelId);
                         string modelinfo = modelUp.ModelInfo(selectedMacro.ModelId);
+                        RhinoApp.WriteLine(modelinfo);
                         var jObject = JObject.Parse(modelinfo);
 
                         var activeModelId = jObject["data"]?["getProject"]?["activeModel"]?["id"].ToString();
