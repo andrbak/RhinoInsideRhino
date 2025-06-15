@@ -12,27 +12,24 @@ WE WANT TO BRIDGE THE GAP BETWEEN THE SPECIALIST AND THE USER, REMOVING THE KNOW
 
 ![AEC Tech - Frame 3](https://github.com/user-attachments/assets/3b6a7337-9cc8-436e-a5bd-730e4c810f8c)
 
-
-# 🧠 Project Name
-
 _A short description of what this project does, who it's for, and what makes it useful._
 
 > Example: A Rhino plugin for visualizing stage-based production data using OxyPlot in WPF.
 
----
 
-## 📦 Features
-
-- ✅ Interactive UI for visualizing daily progress over time
-- ✅ Loads data from JSON for quick updates and integration
-- ✅ Modular architecture (separate UI, logic, and data layers)
-- ✅ Cross-compatible with Rhino 7/8 (.NET Framework or .NET Core)
 
 ---
 
 ## 🚀 Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine.
+### Direct Method
+Download The Pluginfrom the link below and unzip into a folder.
+Go to Rhino-> Options-> Plug-ins click on Install.. and select the unzipped folder.
+
+### Package Manager (Not Released)
+Go to Rhino-> PackageManager search "RhinoInsideRhino" and then click on install.
+
+
 
 ### ✅ Prerequisites
 
@@ -45,16 +42,9 @@ Make sure you have the following installed:
 
 ---
 
-### 🛠 Installation
+### 🛠 Download
 
-```bash
-# Clone the repository
-git clone https://github.com/your-username/your-plugin-name.git
+[![Download](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/your-username/your-repo-name/releases/latest/download/your-file.zip)
 
-# Navigate into the project directory
-cd your-plugin-name
-
-# Open in Visual Studio
-# Restore NuGet packages and build the solution
 
 
