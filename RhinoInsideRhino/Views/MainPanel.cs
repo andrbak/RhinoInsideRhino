@@ -399,7 +399,7 @@ namespace RhinoInsideRhino.Views
                         curveHostObjects.Data.Token = selectedMacro.Token;
 
                         RhinoApp.WriteLine(selectedMacro.ModelId);
-                        string modelinfo = modelUp.ModelInfo(selectedMacro.ModelId);
+                        string modelinfo = modelUp.ModelInfo(selectedMacro.ModelId, selectedMacro.Token);
                         RhinoApp.WriteLine(modelinfo);
                         var jObject = JObject.Parse(modelinfo);
 
