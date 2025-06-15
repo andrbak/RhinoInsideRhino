@@ -12,38 +12,30 @@ WE WANT TO BRIDGE THE GAP BETWEEN THE SPECIALIST AND THE USER, REMOVING THE KNOW
 
 ![AEC Tech - Frame 3](https://github.com/user-attachments/assets/3b6a7337-9cc8-436e-a5bd-730e4c810f8c)
 
-_A short description of what this project does, who it's for, and what makes it useful._
-
-> Example: A Rhino plugin for visualizing stage-based production data using OxyPlot in WPF.
 
 
+Rhino Inside Rhino is a plugin for Rhino that empowers users to access powerful, ready-to-use tools directly within their modeling environment. It allows designers to perform complex operations—such as generating Fabrication models, applying facade, or triggering custom geoemtric logic a single click. By simply drawing input elements (like curves or surfaces) and selecting a corresponding function (e.g., “Curtain”), users can instantly apply parametric logic and fine-tune results through intuitive object properties.
+
+This plugin is ideal for architects, designers, and Rhino developers seeking to streamline workflows and enhance interactivity without diving deep into scripting. Developers can easily contribute new tools by dropping pre-configured logic blocks into the repository folder, making it a flexible, community-driven platform for extending Rhino’s capabilities.
 
 ---
 
-## 🚀 Getting Started
+### 🚀 Getting Started
 
-### Direct Method
+#### ⬇️ Direct Method
 Download The Pluginfrom the link below and unzip into a folder.
 Go to Rhino-> Options-> Plug-ins click on Install.. and select the unzipped folder.
 
-### Package Manager (Not Released)
+#### 📦 Package Manager (Not Released)
 Go to Rhino-> PackageManager search "RhinoInsideRhino" and then click on install.
 
 
-
-### ✅ Prerequisites
-
-Make sure you have the following installed:
-
-- [Visual Studio 2022](https://visualstudio.microsoft.com/)
-- [.NET SDK](https://dotnet.microsoft.com/) (version X.X.X)
-- [Rhino 7 or 8](https://www.rhino3d.com/)
-- [OxyPlot.Wpf](https://github.com/oxyplot/oxyplot) (via NuGet)
-
 ---
 
-### 🛠 Download
-
+### ⬇️ Download
+#### 🦏🧩 Rhino Plugin
+[![Download](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/your-username/your-repo-name/releases/latest/download/your-file.zip)
+#### 🧱 Custom Logics
 [![Download](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/your-username/your-repo-name/releases/latest/download/your-file.zip)
 
 
