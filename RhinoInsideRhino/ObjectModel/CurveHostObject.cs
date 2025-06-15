@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using RhinoInsideRhino.Display;
+using RhinoInsideRhino.Requests;
 
 namespace RhinoInsideRhino.ObjectModel
 {
@@ -75,10 +76,10 @@ namespace RhinoInsideRhino.ObjectModel
         public void Update()
         {
             RhinoApp.WriteLine("Object Changed");
-            // Serialize the data to JSON
+
+
             var inputsJson = new Dictionary<string, object>
             {
-
                 ["txt_in"] = Compress(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string[]> { ["geometry"] = new List<string> { Geometry.ToJSON(new Rhino.FileIO.SerializationOptions()), }.ToArray() }))
             };
             foreach (KeyValuePair<string, ParameterObject> parameter in Data.Parameters)
@@ -96,54 +97,11 @@ namespace RhinoInsideRhino.ObjectModel
                 }
             };
             // Construct the HTTP POST request
-            RhinoApp.WriteLine(requestBody.ToString());
-            RhinoApp.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
-            var request1 = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/configurator?projectId=F6rZ0t1o");
-            request1.Method = "GET";
-            //request1.ContentType = "application/json";
-            //request1.UserAgent = "AecTech25Hack";
-            request1.Headers.Add("Authorization", $"Bearer {Data.token}");
-            // Send the request to Modelup
+            
+            RhinoInsideRhino.Requests.ModelUp modelup = new RhinoInsideRhino.Requests.ModelUp();
 
-            string output1 = string.Empty;
-            // Read and display the server response
-            using (WebResponse response = request1.GetResponse())
-            {
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string txt_out = reader.ReadToEnd();
-                    output1 = txt_out;
-                }
-            }
+            string output = modelup.ComputeCall(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
 
-            RhinoApp.WriteLine(output1);
-
-            var request = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/compute?outputId=" + Data.outputId);
-            request.Method = "POST";
-            request.ContentType = "application/json";
-            request.UserAgent = "AecTech25Hack";
-            request.Headers.Add("Authorization", $"Bearer {Data.token}");
-            request.Headers.Add("x-compute-server", "wilfred-r8");
-            byte[] byteArray = Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
-            request.ContentLength = byteArray.Length;
-            // Send the request to Modelup
-            using (Stream dataStream = request.GetRequestStream())
-            {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-            }
-
-            string output = string.Empty;
-            // Read and display the server response
-            using (WebResponse response = request.GetResponse())
-            {
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string txt_out = reader.ReadToEnd();
-                    output = txt_out;
-                }
-            }
-
-            // Decompress the response
             var decompressedOutputs = JObject.Parse(Decompress(output))["geometry"];
             // Deserialize the response
             var outputData = new List<Rhino.Geometry.GeometryBase>();
