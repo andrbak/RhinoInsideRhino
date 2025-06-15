@@ -167,6 +167,13 @@ namespace RhinoInsideRhino.ObjectModel
                 outputData.Add(_geom);
             }
             ;
+
+
+            if (!Data.DisplayOnly)
+            {
+                BakeGeneratedGeometry();
+            }
+
         }
         public static string Compress(string text)
         {
