@@ -1,0 +1,10 @@
+{
+    "img_path": "Curtains.png", 
+    "name": "Curtains", 
+    "author": "Bob", 
+    "gh_doc_uuid": "e6a11ba2-8aff-4ca9-8737-d3fcb46c4ea4", 
+    "version": "0.0.1", 
+    "description": "This Grasshopper script generates realistic curtains based on a rhino referenced curve to simulate natural wave motion. Users can control fabric length, wave frequency, and amplitude. Anchor points define the curtain\u2019s width and hanging style, while optional randomness adds realism. The setup allows quick design variations and smooth integration into architectural models.", 
+    "model_id": "F6rZ0t1o", 
+    "timestamp": "2025-06-15 02:07:56"
+}
