@@ -30,13 +30,30 @@ Go to Rhino-> Options-> Plug-ins click on Install.. and select the unzipped fold
 Go to Rhino-> PackageManager search "RhinoInsideRhino" and then click on install.
 
 
----
-
 ### ⬇️ Download
-#### 🦏🧩 Rhino Plugin
-[![Download](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/your-username/your-repo-name/releases/latest/download/your-file.zip)
-#### 🧱 Custom Logics
-[![Download](https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github)](https://github.com/your-username/your-repo-name/releases/latest/download/your-file.zip)
+#### Version V0.1  
+<table>
+<tr>
+<td align="center">
+  
+#### 🦏🧩 Rhino Plugin  
+
+<a href="https://github.com/your-username/your-repo-name/releases/latest/download/your-file.zip">
+  <img src="https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github" alt="Download Rhino Plugin" />
+</a>
+
+</td>
+<td align="center">
+
+#### 🧱 Custom Logics  
+<a href="https://github.com/your-username/your-repo-name/releases/latest/download/your-file.zip">
+  <img src="https://img.shields.io/badge/Download-ZIP-blue?style=for-the-badge&logo=github" alt="Download Custom Logics" />
+</a>
+
+</td>
+</tr>
+</table>
+
 
 
 
