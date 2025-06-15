@@ -1,10 +1,10 @@
 {
-    "img_path": "Straigth Stairs.png", 
-    "name": "Straigth Stairs", 
-    "author": "Bob", 
-    "gh_doc_uuid": "edf4b59c-cb42-481a-92c0-ddcf6c024b6c", 
-    "version": "0.0.1", 
+    "timestamp": "2025-06-15 10:18:44", 
     "description": "This Grasshopper script generates parametric straigth stairs based on a rhino referenced curve. Users can control tread length, step heigth, and steps count. Users can also add different type of balustrade and edit it through different sliders. The setup allows quick design variations and smooth integration into architectural models.", 
+    "name": "Straigth Stair", 
+    "version": "0.0.1", 
     "model_id": "oVTfWiIs", 
-    "timestamp": "2025-06-15 02:25:12"
+    "gh_doc_uuid": "edf4b59c-cb42-481a-92c0-ddcf6c024b6c", 
+    "img_path": "Straigth Stair.png", 
+    "author": "Bob"
 }

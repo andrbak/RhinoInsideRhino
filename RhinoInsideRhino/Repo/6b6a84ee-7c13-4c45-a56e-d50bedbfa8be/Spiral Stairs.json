@@ -1,0 +1,10 @@
+{
+    "img_path": "Spiral Stairs.png", 
+    "name": "Spiral Stairs", 
+    "author": "Bob", 
+    "gh_doc_uuid": "6b6a84ee-7c13-4c45-a56e-d50bedbfa8be", 
+    "version": "0.0.1", 
+    "description": "This Grasshopper script generates parametric spiral stairs based on a rhino referenced curve. Users can control tread length, step heigth, rotation, and steps count. Users can also add different type of balustrade and edit it through different sliders. The setup allows quick design variations and smooth integration into architectural models.", 
+    "model_id": "oVTfWiIs", 
+    "timestamp": "2025-06-15 02:33:03"
+}
