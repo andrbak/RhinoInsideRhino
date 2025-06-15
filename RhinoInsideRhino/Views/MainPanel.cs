@@ -415,7 +415,7 @@ namespace RhinoInsideRhino.Views
 
                             foreach (var param in parameters)
                             {
-                                param.Value.ValueChanged += curveHostObjects.Update();
+                                param.Value.ValueChanged += curveHostObjects.Update;
                             }
 
                             curveHostObjects.Data.Parameters = parameters;
