@@ -26,6 +26,8 @@ public class Data
 
     public string ModelId { get; set; } = "857500a6-39cd-42f9-bfa8-e5114afc3eb5";
 
+    public string ActiveModelId { get; set; } = "857500a6-39cd-42f9-bfa8-e5114afc3eb5";
+
 
 
     public Color Color { get; set; } = Color.Blue;
@@ -59,6 +61,7 @@ public class Data
                 : null;
 
             ModelId = other.ModelId;
+            ActiveModelId = other.ActiveModelId;
         }
 
     public Data Clone()

@@ -4,6 +4,7 @@ using Rhino;
 using Rhino.UI;
 using Rhino.UI.DialogPanels;
 using RhinoInsideRhino.Display;
+using RhinoInsideRhino.Requests;
 using RhinoInsideRhino.RhinoHelpers;
 using RhinoInsideRhino.Views;
 
@@ -33,6 +34,9 @@ namespace RhinoInsideRhino
 
             // Register the RhinoObjectEventHandler to handle Rhino object events
             _rhinoObjectEventHandler = new RhinoObjectEventHandler();
+
+            
+            
 
             // Register the Eto main panel
             Panels.RegisterPanel(this, typeof(MainPanel), "RhinoInsideRhino", null);

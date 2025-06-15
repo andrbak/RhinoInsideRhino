@@ -148,7 +148,7 @@ namespace RhinoInsideRhino.ObjectModel
                 ["inputs"] = inputsJson,
                 ["model"] = new Dictionary<string, string>
                 {
-                    ["id"] = Data.ModelId.ToString(),
+                    ["id"] = Data.ActiveModelId.ToString(),
                     ["type"] = "GH"
                 }
             };
@@ -160,13 +160,15 @@ namespace RhinoInsideRhino.ObjectModel
 
             var decompressedOutputs = JObject.Parse(Decompress(output))["geometry"];
             // Deserialize the response
-            var outputData = new List<Rhino.Geometry.GeometryBase>();
+            var outputData = new List<object>();
             foreach (var decompressedOutput in decompressedOutputs)
             {
-                var _geom = (Rhino.Geometry.GeometryBase)Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
                 outputData.Add(_geom);
             }
             ;
+
+            Data.GeneratedGeometries = outputData;
 
 
             if (!Data.DisplayOnly)

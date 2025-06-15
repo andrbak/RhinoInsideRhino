@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using RhinoInsideRhino.Requests;
+using Newtonsoft.Json.Linq;
 
 
 namespace RhinoInsideRhino.Views
@@ -252,7 +254,7 @@ namespace RhinoInsideRhino.Views
 
 
                 string message = "Applying macro: " + selectedMacro.Name + " to:";
-
+                var modelUp = new Requests.ModelUp();
 
                 foreach (var obj in selectedObjects)
                 {
@@ -266,15 +268,19 @@ namespace RhinoInsideRhino.Views
 
 
                         // TEST DATA
-                        string filePath = @"C:\Users\andreasb\source\repos\RhinoInsideRhino\RhinoInsideRhino\TestData\testData.json";
+                        //string filePath = @"C:\Users\andreasb\source\repos\RhinoInsideRhino\RhinoInsideRhino\TestData\testData.json";
+                        RhinoApp.WriteLine(selectedMacro.ModelId);
+                        string modelinfo = modelUp.ModelInfo(selectedMacro.ModelId);
+                        var jObject = JObject.Parse(modelinfo);
 
+                        var activeModelId = jObject["data"]?["getProject"]?["activeModel"]?["id"].ToString();
+                        curveHostObjects.Data.ActiveModelId = activeModelId;
 
-
-                        if (File.Exists(filePath))
+                        if (modelinfo != string.Empty)
                         {
-                            string json = File.ReadAllText(filePath);
+                            //string json = File.ReadAllText(filePath);
 
-                            var parameters = ParameterParser.ParseInputs(json);
+                            var parameters = ParameterParser.ParseInputs(modelinfo);
 
                             curveHostObjects.Data.Parameters = parameters;
 

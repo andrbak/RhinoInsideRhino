@@ -75,7 +75,8 @@ namespace RhinoInsideRhino.Views
             layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
             foreach (var parameter in data.Data.Parameters)
             {
-                layout.AddSeparateRow(new Label { Text = parameter.Key + ":" + parameter.Value.Value });
+                layout.AddSeparateRow(parameter.Value.GetEtoControl());
+                //add event listener?
 
             }
 
