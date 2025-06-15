@@ -1,0 +1,10 @@
+{
+    "description": "This Grasshopper script generates a group of parametric trees in a pre-defined curve. The scripts generates a random point placement ensuring logical spacing between trees. Users control the tree density, typology percentage, height and seed.", 
+    "timestamp": "2025-06-15 03:08:46", 
+    "model_id": "SJBZ1ii9", 
+    "author": "Paul", 
+    "img_path": "Scattering Trees.png", 
+    "version": "0.0.1", 
+    "gh_doc_uuid": "50cf57bb-95bd-4011-a6ba-5b339f8db579", 
+    "name": "Scattering Trees"
+}
