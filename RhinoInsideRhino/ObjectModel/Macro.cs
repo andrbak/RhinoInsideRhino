@@ -12,6 +12,9 @@ namespace RhinoInsideRhino.ObjectModel
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("token")]
+        public string Token { get; set; }
+
         [JsonProperty("img_path")]
         public string ImagePath { get; set; }
 

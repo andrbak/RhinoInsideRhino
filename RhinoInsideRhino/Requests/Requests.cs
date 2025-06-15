@@ -18,7 +18,7 @@ namespace RhinoInsideRhino.Requests
     public class ModelUp
     {
         public string bearerToken { get; set; } = "eyJhbGciOiJIUzI1NiJ9.eyJ2NW4iOjEsImlkIjoxMzAsInA3ZCI6IkY2clowdDFvIiwicDlzIjpbImIyYiIsImM1ZSIsInJfYzE1YSJdLCJleHAiOjE3NTIzMjgwMDl9.KxhJiGG4dUd8xETkHihbEq2YBSu9BZRUy_JiQN-RRiU";
-        public string ModelInfo(string projectId)
+        public string ModelInfo(string projectId, string bearerToken)
         {
             RhinoApp.WriteLine("Getting Modelinfo:"+projectId);
             var request = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/configurator?projectId=" + projectId);
@@ -39,7 +39,7 @@ namespace RhinoInsideRhino.Requests
           //  }
             return output;
         }
-        public string ComputeCall(string requestBody)
+        public string ComputeCall(string requestBody, string bearerToken)
         {
             var request = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/compute?outputId=txt_out");
             request.Method = "POST";
