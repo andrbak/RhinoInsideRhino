@@ -54,7 +54,7 @@ public class Data
                 : null;
 
             outputId = other.outputId;
-            token = other.token;
+            Token = other.Token;
 
             GeneratedGeometries = other.GeneratedGeometries != null
                 ? new List<object>(other.GeneratedGeometries)
