@@ -5,7 +5,7 @@
     "token": "eyJhbGciOiJIUzI1NiJ9.eyJ2NW4iOjEsImlkIjoxMjksInA3ZCI6Im9WVGZXaUlzIiwicDlzIjpbImIyYiIsImM1ZSIsInJfYzE1YSJdLCJleHAiOjE3NTIzMjc5MjB9.lGaUzef600vm4yDS9I27e-oq8rBVwYuzs1aZYmD0dP8",
     "author": "Nick", 
     "img_path": "Double Flight Stair.png", 
-    "version": "0.0.1", 
+    "version": "0.0.2", 
     "gh_doc_uuid": "56fc354e-0cfa-4ce1-8e2f-437b9666132e", 
     "name": "Curtain"
 }
