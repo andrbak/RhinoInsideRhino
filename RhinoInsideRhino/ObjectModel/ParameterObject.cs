@@ -9,7 +9,7 @@ namespace RhinoInsideRhino.ObjectModel
 {
     public abstract class ParameterObject
     {
-
+        public Action ValueChanged;
         public string Type { get; set; }
 
         public object Value { get; set; }   
@@ -19,6 +19,11 @@ namespace RhinoInsideRhino.ObjectModel
         public string Id { get; set; }
 
         public abstract Control GetEtoControl();
+
+        public ParameterObject()
+        {
+            ValueChanged = () => { };
+        }
     }
 
 
@@ -42,6 +47,20 @@ namespace RhinoInsideRhino.ObjectModel
 
         public override Control GetEtoControl()
         {
+
+            var stackLayout = new StackLayout
+            {
+                Orientation = Orientation.Horizontal,
+                Spacing = 5
+            };
+
+            var label = new Label
+            {
+                Text = Name,
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
+
             var dropDown = new DropDown();
 
             // Populate the DropDown with option texts
@@ -53,7 +72,7 @@ namespace RhinoInsideRhino.ObjectModel
                 }
 
                 // Set selected index based on current Value
-                var selectedIndex = Options.FindIndex(o => o.Value == (string)Value);
+                var selectedIndex = Options.FindIndex(o => o.Value == Value.ToString());
                 if (selectedIndex >= 0)
                     dropDown.SelectedIndex = selectedIndex;
             }
@@ -64,10 +83,14 @@ namespace RhinoInsideRhino.ObjectModel
                 if (dropDown.SelectedIndex >= 0 && Options != null && dropDown.SelectedIndex < Options.Count)
                 {
                     Value = Options[dropDown.SelectedIndex].Value;
+                    ValueChanged?.Invoke();
                 }
             };
 
-            return dropDown;
+            stackLayout.Items.Add(label);
+            stackLayout.Items.Add(dropDown);
+
+            return stackLayout;
         }
     }
 
@@ -87,6 +110,12 @@ namespace RhinoInsideRhino.ObjectModel
             int scale = (int)Math.Pow(10, DecimalPlaces);
             int scaledMin = (int)(Min * scale);
             int scaledMax = (int)(Max * scale);
+
+            var label = new Label
+            {
+                Text = Name,
+                VerticalAlignment = VerticalAlignment.Center
+            };
 
             var slider = new Slider
             {
@@ -114,6 +143,7 @@ namespace RhinoInsideRhino.ObjectModel
                 double newValue = slider.Value / (double)scale;
                 Value = newValue;
                 valueLabel.Text = newValue.ToString("F" + DecimalPlaces);
+                ValueChanged?.Invoke();
             };
 
             return new StackLayout
@@ -121,8 +151,9 @@ namespace RhinoInsideRhino.ObjectModel
                 Orientation = Orientation.Horizontal,
                 Items =
         {
-            slider,
-            valueLabel
+                    label,
+                     slider,
+                    valueLabel
         },
                 Spacing = 5
             };

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Rhino;
 using Rhino.UI;
 using Rhino.UI.DialogPanels;
+using RhinoInsideRhino.Display;
+using RhinoInsideRhino.Requests;
 using RhinoInsideRhino.RhinoHelpers;
 using RhinoInsideRhino.Views;
 
@@ -21,6 +23,8 @@ namespace RhinoInsideRhino
 
         private RhinoObjectEventHandler _rhinoObjectEventHandler;
 
+        public DisplayOptions DisplayOptions { get; } = new DisplayOptions();   
+
         public RhinoInsideRhinoPlugin()
         {
             Instance = this;
@@ -30,6 +34,9 @@ namespace RhinoInsideRhino
 
             // Register the RhinoObjectEventHandler to handle Rhino object events
             _rhinoObjectEventHandler = new RhinoObjectEventHandler();
+
+            
+            
 
             // Register the Eto main panel
             Panels.RegisterPanel(this, typeof(MainPanel), "RhinoInsideRhino", null);

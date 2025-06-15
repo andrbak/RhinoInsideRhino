@@ -20,11 +20,13 @@ public class Data
 
     public string outputId { get; set; } = "txt_out";
 
-    public string token { get; set; } = "eyJhbGciOiJIUzI1NiJ9.eyJ2NW4iOjEsImlkIjoxMzAsInA3ZCI6IkY2clowdDFvIiwicDlzIjpbImIyYiIsImM1ZSIsInJfYzE1YSJdLCJleHAiOjE3NTIzMjgwMDl9.KxhJiGG4dUd8xETkHihbEq2YBSu9BZRUy_JiQN-RRiU";
+    public string Token { get; set; } = "eyJhbGciOiJIUzI1NiJ9.eyJ2NW4iOjEsImlkIjoxMzAsInA3ZCI6IkY2clowdDFvIiwicDlzIjpbImIyYiIsImM1ZSIsInJfYzE1YSJdLCJleHAiOjE3NTIzMjgwMDl9.KxhJiGG4dUd8xETkHihbEq2YBSu9BZRUy_JiQN-RRiU";
 
     public List<object> GeneratedGeometries { get; set; }
 
     public string ModelId { get; set; } = "857500a6-39cd-42f9-bfa8-e5114afc3eb5";
+
+    public string ActiveModelId { get; set; } = "857500a6-39cd-42f9-bfa8-e5114afc3eb5";
 
 
 
@@ -52,13 +54,14 @@ public class Data
                 : null;
 
             outputId = other.outputId;
-            token = other.token;
+            Token = other.Token;
 
             GeneratedGeometries = other.GeneratedGeometries != null
                 ? new List<object>(other.GeneratedGeometries)
                 : null;
 
             ModelId = other.ModelId;
+            ActiveModelId = other.ActiveModelId;
         }
 
     public Data Clone()

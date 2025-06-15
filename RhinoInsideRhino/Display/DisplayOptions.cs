@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace RhinoInsideRhino.Display
 {
-    public static class  DisplayOptions
+    public  class  DisplayOptions
     {
 
-        public static bool ShowHosts { get; set; } = true;
-        public static bool ShowGeneratedGeometries { get; set; } = true;
+        public  bool ShowHosts { get; set; } = true;
+        public  bool ShowGeneratedGeometries { get; set; } = true;
     }
 }
