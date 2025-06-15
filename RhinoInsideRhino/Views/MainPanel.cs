@@ -413,6 +413,11 @@ namespace RhinoInsideRhino.Views
 
                             var parameters = ParameterParser.ParseInputs(modelinfo);
 
+                            foreach (var param in parameters)
+                            {
+                                param.Value.ValueChanged += curveHostObjects.Update();
+                            }
+
                             curveHostObjects.Data.Parameters = parameters;
 
                             RhinoDoc.ActiveDoc.Objects.AddRhinoObject(curveHostObjects, curve);

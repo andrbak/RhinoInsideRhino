@@ -75,11 +75,14 @@ namespace RhinoInsideRhino.Views
             layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
             foreach (var parameter in data.Data.Parameters)
             {
+                Control etoParameter = parameter.Value.GetEtoControl();
+                etoParameter
                 layout.AddSeparateRow(parameter.Value.GetEtoControl());
-                //add event listener?
+                
 
             }
 
+            layout.AddSeparateRow();
             Content = layout;
         }
 
