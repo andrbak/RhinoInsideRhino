@@ -37,6 +37,16 @@ namespace RhinoInsideRhino.Views
             }
             return rc;
         }
+
+
+
+        public override void UpdatePage(ObjectPropertiesPageEventArgs e)
+        {
+
+            m_page_control.Update(e.Objects);
+            //m_page_control = new HostObjectPropertiesPageControl(e.Objects);
+        }
+
         // Check if object is a HostObject
         public override object PageControl
         {
@@ -52,11 +62,13 @@ namespace RhinoInsideRhino.Views
     {
         private readonly HostObjectPropertiesPage _page;
 
-        public HostObjectPropertiesPageControl(RhinoObject[] selectedObjects)  // Perhaps this takes an argument to display different content)
+        public void Update(RhinoObject[] selectedObjects)
         {
+
             //Check if all selected objects are using the same model
             var allSameModel = true;
             var modellist = new Dictionary<string, string>();
+
             foreach (var obj in selectedObjects)
             {
                 var _data = obj.Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
@@ -64,22 +76,82 @@ namespace RhinoInsideRhino.Views
                 {
                     if (_data.Data.ModelId != string.Empty)
                     {
-                        modellist[_data.Data.ModelId.ToString()] = _data.Data.token;
+                        modellist[_data.Data.ModelId.ToString()] = _data.Data.Token;
                     }
                 }
 
             }
-            var data = selectedObjects[0].Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
             var layout = new DynamicLayout();
-            layout.AddSeparateRow(new Label { Text = "This is a Smart Object" });
-            layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
-            foreach (var parameter in data.Data.Parameters)
+            if (selectedObjects.Length < 1)
             {
-                layout.AddSeparateRow(new Label { Text = parameter.Key + ":" + parameter.Value.Value });
+                Content = layout;
 
             }
+            else
+            {
+                var data = selectedObjects[0].Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
+                layout.AddSeparateRow(new Label { Text = "This is a Smart Object" });
+                layout.AddSeparateRow(new Label { Text = "Selected objects:" + selectedObjects.Length.ToString() + selectedObjects[0].Id.ToString() });
+                layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
+                foreach (var parameter in data.Data.Parameters)
+                {
 
-            Content = layout;
+
+                    layout.AddSeparateRow(parameter.Value.GetEtoControl());
+
+
+                }
+
+                layout.AddSeparateRow();
+                Content = layout;
+            }
+
+        
+    }
+
+        public HostObjectPropertiesPageControl(RhinoObject[] selectedObjects)  // Perhaps this takes an argument to display different content)
+        {
+            //Check if all selected objects are using the same model
+            var allSameModel = true;
+            var modellist = new Dictionary<string, string>();
+
+            foreach (var obj in selectedObjects)
+            {
+                var _data = obj.Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
+                if (_data != null)
+                {
+                    if (_data.Data.ModelId != string.Empty)
+                    {
+                        modellist[_data.Data.ModelId.ToString()] = _data.Data.Token;
+                    }
+                }
+
+            }
+            var layout = new DynamicLayout();
+            if (selectedObjects.Length < 1)
+            {
+                Content = layout;
+
+            }
+            else
+            {
+                var data = selectedObjects[0].Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
+                layout.AddSeparateRow(new Label { Text = "This is a Smart Object" });
+                layout.AddSeparateRow(new Label { Text = "Selected objects:" + selectedObjects.Length.ToString() + selectedObjects[0].Id.ToString() });
+                layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
+                foreach (var parameter in data.Data.Parameters)
+                {
+
+
+                    layout.AddSeparateRow(parameter.Value.GetEtoControl());
+
+
+                }
+
+                layout.AddSeparateRow();
+                Content = layout;
+            }
+
         }
 
     }

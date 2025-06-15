@@ -64,7 +64,7 @@ namespace RhinoInsideRhino.ObjectModel
 
 
 
-            if (this.CurveGeometry != null && DisplayOptions.ShowHosts)
+            if (this.CurveGeometry != null && RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowHosts)
             {
                 e.Display.DrawCurve(this.CurveGeometry, color, thickness);
                 //GeometryPreview.ShowOrUpdateCurve(this.CurveGeometry, color, thickness);
@@ -79,7 +79,7 @@ namespace RhinoInsideRhino.ObjectModel
 
 
             //// Draw generated geometries
-            if (Data.GeneratedGeometries != null && DisplayOptions.ShowGeneratedGeometries)
+            if (Data.GeneratedGeometries != null && RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowGeneratedGeometries)
             {
 
 
@@ -141,6 +141,7 @@ namespace RhinoInsideRhino.ObjectModel
             foreach (KeyValuePair<string, ParameterObject> parameter in Data.Parameters)
             {
                 inputsJson[parameter.Key] = parameter.Value.Value;
+                RhinoApp.WriteLine(parameter.Key+":"+parameter.Value.Value);
             }
 
             var requestBody = new Dictionary<string, object>
@@ -148,7 +149,7 @@ namespace RhinoInsideRhino.ObjectModel
                 ["inputs"] = inputsJson,
                 ["model"] = new Dictionary<string, string>
                 {
-                    ["id"] = Data.ModelId.ToString(),
+                    ["id"] = Data.ActiveModelId.ToString(),
                     ["type"] = "GH"
                 }
             };
@@ -156,17 +157,29 @@ namespace RhinoInsideRhino.ObjectModel
             
             RhinoInsideRhino.Requests.ModelUp modelup = new RhinoInsideRhino.Requests.ModelUp();
 
-            string output = modelup.ComputeCall(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
+            string output = modelup.ComputeCall(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody), Data.Token);
 
             var decompressedOutputs = JObject.Parse(Decompress(output))["geometry"];
             // Deserialize the response
-            var outputData = new List<Rhino.Geometry.GeometryBase>();
+            var outputData = new List<object>();
             foreach (var decompressedOutput in decompressedOutputs)
             {
-                var _geom = (Rhino.Geometry.GeometryBase)Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                
+                var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                RhinoApp.WriteLine(_geom.ToString());
                 outputData.Add(_geom);
             }
             ;
+
+            Data.GeneratedGeometries = outputData;
+            Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
+
+
+            if (!Data.DisplayOnly)
+            {
+                BakeGeneratedGeometry();
+            }
+
         }
         public static string Compress(string text)
         {

@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using RhinoInsideRhino.Requests;
+using Newtonsoft.Json.Linq;
 
 
 namespace RhinoInsideRhino.Views
@@ -39,7 +41,7 @@ namespace RhinoInsideRhino.Views
 
         private ListBox listBox;
 
-
+        private GridView listView;
 
 
 
@@ -49,24 +51,23 @@ namespace RhinoInsideRhino.Views
         /// </summary>
         /// 
 
-
-
-
-
-
-        public MainPanel(uint documentSerialNumber)
+        private Image LoadImageSafe(string path)
         {
+            if (!string.IsNullOrEmpty(path) && File.Exists(path))
+            {
+                try
+                {
+                    return new Bitmap(path).WithSize(48, 48);
+                }
+                catch { }
+            }
+            return null;
+        }
 
-            // Sample data
-            //var items = new List<Macro>
-            //{
-            //    new Macro { Name = "Apple", Description = "A juicy red fruit." },
-            //    new Macro { Name = "Banana", Description = "A long yellow fruit." },
-            //    new Macro { Name = "Cherry", Description = "A small red fruit." }
-            //};
 
 
-
+        public Control CreateContent()
+        {
             var selectFolderButton = new Button { Text = "Select Folder" };
             selectFolderButton.Click += (sender, e) =>
             {
@@ -78,26 +79,62 @@ namespace RhinoInsideRhino.Views
 
                     // Reload macros from the new folder and update the list
                     var macros = MacroLoader.LoadMacrosFromSubfolders(selectedFolder);
-                    listBox.DataStore = macros;
+                    listView.DataStore = macros;
                 }
             };
 
-            listBox = new ListBox
+            listView = new GridView<Macro>
             {
-                DataStore = new List<Macro>(), // Start empty
-                ItemTextBinding = Binding.Delegate<Macro, string>(m => m.Name)
+                DataStore = new List<Macro>(),
+                RowHeight = 60,
+                AllowMultipleSelection = false
             };
 
-            // Selected label
+            // Thumbnail + Name
+            listView.Columns.Add(new GridColumn
+            {
+                HeaderText = "Macro",
+                DataCell = new ImageTextCell
+                {
+                    ImageBinding = Binding.Delegate<Macro, Image>(m => LoadImageSafe(m.ImagePath)),
+                    TextBinding = Binding.Property<Macro, string>(m => m.Name)
+                },
+                Width = 200
+            });
+
+
+
+
+            // Description
+            listView.Columns.Add(new GridColumn
+            {
+                HeaderText = "Description",
+                DataCell = new TextBoxCell
+                {
+                    
+                    Binding = Binding.Property<Macro, string>(m => m.Description),
+
+                },
+                Width = 300
+            });
+
             var selectedLabel = new Label { Text = "" };
-
-            listBox.SelectedIndexChanged += (s, e) =>
+            listView.SelectedRowsChanged += (s, e) =>
             {
-                selectedMacro = listBox.SelectedValue as Macro;
-                selectedLabel.Text = selectedMacro != null
-                    ? "Selected: " + selectedMacro.Name
-                    : "Nothing selected";
+                var selectedIndex = listView.SelectedRow;
+                selectedMacro = selectedIndex >= 0 ? (Macro) listView.DataStore.ElementAt(selectedIndex) : null;
+                selectedLabel.Text = selectedMacro != null ? "Selected: " + selectedMacro.Name : "Nothing selected";
             };
+
+
+
+            //listBox.SelectedIndexChanged += (s, e) =>
+            //{
+            //    selectedMacro = listBox.SelectedValue as Macro;
+            //    selectedLabel.Text = selectedMacro != null
+            //        ? "Selected: " + selectedMacro.Name
+            //        : "Nothing selected";
+            //};
 
 
             //Button
@@ -116,13 +153,13 @@ namespace RhinoInsideRhino.Views
             // Handle check changes and update static properties
             showHostObjectsCheckBox.CheckedChanged += (sender, e) =>
             {
-                GeometryPreview.ShowHosts = showHostObjectsCheckBox.Checked == true;
+                RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowHosts = showHostObjectsCheckBox.Checked == true;
                 RhinoDoc.ActiveDoc.Views.Redraw(); // Redraw to apply changes   
             };
 
             showGeneratedGeometriesCheckBox.CheckedChanged += (sender, e) =>
             {
-                GeometryPreview.ShowGeneratedGeometries = showGeneratedGeometriesCheckBox.Checked == true;
+                RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowGeneratedGeometries = showGeneratedGeometriesCheckBox.Checked == true;
                 RhinoDoc.ActiveDoc.Views.Redraw(); // Redraw to apply changes  
             };
 
@@ -131,16 +168,112 @@ namespace RhinoInsideRhino.Views
 
             layout.AddSeparateRow(selectFolderButton);
             layout.AddSeparateRow(new Label { Text = "Select Macro" }, null);
-            layout.AddRow(listBox);
+            layout.AddRow(listView);
             layout.AddRow(selectedLabel);
             layout.AddRow(applyButton);
-            layout.AddRow(showHostObjectsCheckBox, showGeneratedGeometriesCheckBox);
-
+            layout.AddRow(showHostObjectsCheckBox);
+            layout.AddRow(showGeneratedGeometriesCheckBox);
 
             layout.Add(null);
 
+            return layout;
+        }
 
-            Content = layout;
+        //public Control CreateContent_OLD()
+        //{
+        //    var selectFolderButton = new Button { Text = "Select Folder" };
+        //    selectFolderButton.Click += (sender, e) =>
+        //    {
+        //        var dlg = new SelectFolderDialog();
+        //        if (dlg.ShowDialog(this) == DialogResult.Ok)
+        //        {
+        //            selectedFolder = dlg.Directory;
+        //            //MessageBox.Show(this, "Selected folder: " + selectedFolder, "Folder Selected");
+
+        //            // Reload macros from the new folder and update the list
+        //            var macros = MacroLoader.LoadMacrosFromSubfolders(selectedFolder);
+        //            listBox.DataStore = macros;
+        //        }
+        //    };
+
+        //    listBox = new ListBox
+        //    {
+        //        DataStore = new List<Macro>(), // Start empty
+        //        ItemTextBinding = Binding.Delegate<Macro, string>(m => m.Name)
+        //    };
+
+        //    // Selected label
+        //    var selectedLabel = new Label { Text = "" };
+
+        //    listBox.SelectedIndexChanged += (s, e) =>
+        //    {
+        //        selectedMacro = listBox.SelectedValue as Macro;
+        //        selectedLabel.Text = selectedMacro != null
+        //            ? "Selected: " + selectedMacro.Name
+        //            : "Nothing selected";
+        //    };
+
+
+        //    //Button
+        //    Button applyButton = new Button { Text = "Apply To Selection" };
+        //    applyButton.Click += (sender, e) => OnApplyButton();
+
+
+        //    // Create checkboxes
+        //    var showHostObjectsCheckBox = new CheckBox { Text = "Show Host Objects" };
+        //    var showGeneratedGeometriesCheckBox = new CheckBox { Text = "Show Generated Geometries" };
+
+        //    // Set initial values based on static props
+        //    showHostObjectsCheckBox.Checked = GeometryPreview.ShowHosts;
+        //    showGeneratedGeometriesCheckBox.Checked = GeometryPreview.ShowGeneratedGeometries;
+
+        //    // Handle check changes and update static properties
+        //    showHostObjectsCheckBox.CheckedChanged += (sender, e) =>
+        //    {
+        //        RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowHosts = showHostObjectsCheckBox.Checked == true;
+        //        RhinoDoc.ActiveDoc.Views.Redraw(); // Redraw to apply changes   
+        //    };
+
+        //    showGeneratedGeometriesCheckBox.CheckedChanged += (sender, e) =>
+        //    {
+        //        RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowGeneratedGeometries = showGeneratedGeometriesCheckBox.Checked == true;
+        //        RhinoDoc.ActiveDoc.Views.Redraw(); // Redraw to apply changes  
+        //    };
+
+        //    // Layout
+        //    var layout = new DynamicLayout { DefaultSpacing = new Size(5, 5), Padding = new Padding(10) };
+
+        //    layout.AddSeparateRow(selectFolderButton);
+        //    layout.AddSeparateRow(new Label { Text = "Select Macro" }, null);
+        //    layout.AddRow(listBox);
+        //    layout.AddRow(selectedLabel);
+        //    layout.AddRow(applyButton);
+        //    layout.AddRow(showHostObjectsCheckBox);
+        //    layout.AddRow(showGeneratedGeometriesCheckBox);
+
+        //    layout.Add(null);
+
+        //    return layout;
+        //}
+
+
+        public MainPanel(uint documentSerialNumber)
+        {
+
+            // Sample data
+            //var items = new List<Macro>
+            //{
+            //    new Macro { Name = "Apple", Description = "A juicy red fruit." },
+            //    new Macro { Name = "Banana", Description = "A long yellow fruit." },
+            //    new Macro { Name = "Cherry", Description = "A small red fruit." }
+            //};
+
+
+
+
+
+
+            Content = CreateContent();
 
 
 
@@ -252,7 +385,7 @@ namespace RhinoInsideRhino.Views
 
 
                 string message = "Applying macro: " + selectedMacro.Name + " to:";
-
+                var modelUp = new Requests.ModelUp();
 
                 foreach (var obj in selectedObjects)
                 {
@@ -263,18 +396,26 @@ namespace RhinoInsideRhino.Views
                         CurveHostObject curveHostObjects = new CurveHostObject(curve);
 
                         curveHostObjects.Data.ModelId = selectedMacro.ModelId;
+                        curveHostObjects.Data.Token = selectedMacro.Token;
 
+                        RhinoApp.WriteLine(selectedMacro.ModelId);
+                        string modelinfo = modelUp.ModelInfo(selectedMacro.ModelId, selectedMacro.Token);
+                        RhinoApp.WriteLine(modelinfo);
+                        var jObject = JObject.Parse(modelinfo);
 
-                        // TEST DATA
-                        string filePath = @"C:\Users\andreasb\source\repos\RhinoInsideRhino\RhinoInsideRhino\TestData\testData.json";
+                        var activeModelId = jObject["data"]?["getProject"]?["activeModel"]?["id"].ToString();
+                        curveHostObjects.Data.ActiveModelId = activeModelId;
 
-
-
-                        if (File.Exists(filePath))
+                        if (modelinfo != string.Empty)
                         {
-                            string json = File.ReadAllText(filePath);
+                            //string json = File.ReadAllText(filePath);
 
-                            var parameters = ParameterParser.ParseInputs(json);
+                            var parameters = ParameterParser.ParseInputs(modelinfo);
+
+                            foreach (var param in parameters)
+                            {
+                                param.Value.ValueChanged += curveHostObjects.Update;
+                            }
 
                             curveHostObjects.Data.Parameters = parameters;
 
@@ -299,28 +440,14 @@ namespace RhinoInsideRhino.Views
                     message += obj.Id;
                 }
 
-                Dialogs.ShowMessage(message, Title);
+                //Dialogs.ShowMessage(message, Title);
 
                 
 
 
 
             }
-                
-
-
-
-
-                
-
-
-
-
-
-
-
-
-
+   
             else
                 Dialogs.ShowMessage("No macro selected.", Title);
         }
@@ -343,11 +470,7 @@ namespace RhinoInsideRhino.Views
         /// <summary>
         /// Sample of how to display a child Eto dialog
         /// </summary>
-        protected void OnChildButton()
-        {
-            //SampleCsEtoHelloWorld dialog = new SampleCsEtoHelloWorld();
-            //dialog.ShowModal(this);
-        }
+
 
         #region IPanel methods
         public void PanelShown(uint documentSerialNumber, ShowPanelReason reason)

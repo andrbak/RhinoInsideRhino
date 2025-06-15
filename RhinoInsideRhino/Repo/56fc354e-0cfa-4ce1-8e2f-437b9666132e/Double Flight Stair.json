@@ -1,0 +1,11 @@
+{
+    "description": "This Grasshopper definition generates a fully parametric fabric curtain using a curve as its base geometry. The curtain is defined by key adjustable parameters such as curtain height, opening position close percentage. Optional controls allow users to modify the curtain and change the direction it opens. The parametric script makes it easy and to quickly create and visualise real-looking fabric curtians.", 
+    "timestamp": "2025-06-15 04:57:05", 
+    "model_id": "F6rZ0t1o", 
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJ2NW4iOjEsImlkIjoxMjksInA3ZCI6Im9WVGZXaUlzIiwicDlzIjpbImIyYiIsImM1ZSIsInJfYzE1YSJdLCJleHAiOjE3NTIzMjc5MjB9.lGaUzef600vm4yDS9I27e-oq8rBVwYuzs1aZYmD0dP8",
+    "author": "Nick", 
+    "img_path": "Double Flight Stair.png", 
+    "version": "0.0.2", 
+    "gh_doc_uuid": "56fc354e-0cfa-4ce1-8e2f-437b9666132e", 
+    "name": "Curtain"
+}
