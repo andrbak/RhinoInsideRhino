@@ -27,6 +27,9 @@ namespace RhinoInsideRhino.ObjectModel
                     // If multiple JSON files, choose first one. Adjust logic if needed.
                     string jsonContent = File.ReadAllText(jsonFiles[0]);
                     var macro = Macro.FromJson(jsonContent);
+
+                    macro.ImagePath = Path.Combine(subdir, macro.ImagePath);
+
                     macros.Add(macro);
                 }
                 catch (Exception ex)
