@@ -396,10 +396,8 @@ namespace RhinoInsideRhino.Views
                         CurveHostObject curveHostObjects = new CurveHostObject(curve);
 
                         curveHostObjects.Data.ModelId = selectedMacro.ModelId;
+                        curveHostObjects.Data.Token = selectedMacro.Token;
 
-
-                        // TEST DATA
-                        //string filePath = @"C:\Users\andreasb\source\repos\RhinoInsideRhino\RhinoInsideRhino\TestData\testData.json";
                         RhinoApp.WriteLine(selectedMacro.ModelId);
                         string modelinfo = modelUp.ModelInfo(selectedMacro.ModelId);
                         RhinoApp.WriteLine(modelinfo);

@@ -157,7 +157,7 @@ namespace RhinoInsideRhino.ObjectModel
             
             RhinoInsideRhino.Requests.ModelUp modelup = new RhinoInsideRhino.Requests.ModelUp();
 
-            string output = modelup.ComputeCall(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody));
+            string output = modelup.ComputeCall(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody), Data.Token);
 
             var decompressedOutputs = JObject.Parse(Decompress(output))["geometry"];
             // Deserialize the response

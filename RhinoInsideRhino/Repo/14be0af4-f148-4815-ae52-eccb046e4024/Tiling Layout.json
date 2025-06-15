@@ -1,7 +1,8 @@
 {
     "description": "This Grasshopper script takes a boundary curve and a specified tile size as inputs, along with tiling layout options (such as grid, offset, or herringbone pattern). It automatically populates the surface with tiles according to the selected layout. The script calculates the tile layout based on inputs such as tile width, length, rotation angle and layout type. The total number of tiles is calculated as an ouput including a wastage percentage for the trimming. The final output includes the arranged tile layout as well as a summary count of tiles needed for procurement.", 
     "timestamp": "2025-06-15 03:21:30", 
-    "model_id": "K1LoVp6c", 
+    "model_id": "K1LoVp6c",
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJ2NW4iOjEsImlkIjoxMzIsInA3ZCI6IksxTG9WcDZjIiwicDlzIjpbImM1ZSIsInJfYzE1YSIsImIyYiJdLCJleHAiOjE3NTIzNDEwMDd9.Mt_xdfUmftBGQXcOnCeTRs8IQ7935YW_RLsGupUI50M", 
     "author": "Paul", 
     "img_path": "Tiling Layout.png", 
     "version": "0.0.1", 
