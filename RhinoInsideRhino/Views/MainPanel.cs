@@ -116,13 +116,13 @@ namespace RhinoInsideRhino.Views
             // Handle check changes and update static properties
             showHostObjectsCheckBox.CheckedChanged += (sender, e) =>
             {
-                GeometryPreview.ShowHosts = showHostObjectsCheckBox.Checked == true;
+                RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowHosts = showHostObjectsCheckBox.Checked == true;
                 RhinoDoc.ActiveDoc.Views.Redraw(); // Redraw to apply changes   
             };
 
             showGeneratedGeometriesCheckBox.CheckedChanged += (sender, e) =>
             {
-                GeometryPreview.ShowGeneratedGeometries = showGeneratedGeometriesCheckBox.Checked == true;
+                RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowGeneratedGeometries = showGeneratedGeometriesCheckBox.Checked == true;
                 RhinoDoc.ActiveDoc.Views.Redraw(); // Redraw to apply changes  
             };
 
@@ -134,8 +134,8 @@ namespace RhinoInsideRhino.Views
             layout.AddRow(listBox);
             layout.AddRow(selectedLabel);
             layout.AddRow(applyButton);
-            layout.AddRow(showHostObjectsCheckBox, showGeneratedGeometriesCheckBox);
-
+            layout.AddRow(showHostObjectsCheckBox);
+            layout.AddRow(showGeneratedGeometriesCheckBox);
 
             layout.Add(null);
 

@@ -64,7 +64,7 @@ namespace RhinoInsideRhino.ObjectModel
 
 
 
-            if (this.CurveGeometry != null && DisplayOptions.ShowHosts)
+            if (this.CurveGeometry != null && RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowHosts)
             {
                 e.Display.DrawCurve(this.CurveGeometry, color, thickness);
                 //GeometryPreview.ShowOrUpdateCurve(this.CurveGeometry, color, thickness);
@@ -79,7 +79,7 @@ namespace RhinoInsideRhino.ObjectModel
 
 
             //// Draw generated geometries
-            if (Data.GeneratedGeometries != null && DisplayOptions.ShowGeneratedGeometries)
+            if (Data.GeneratedGeometries != null && RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowGeneratedGeometries)
             {
 
 

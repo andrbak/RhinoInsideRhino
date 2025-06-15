@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Rhino;
 using Rhino.UI;
 using Rhino.UI.DialogPanels;
+using RhinoInsideRhino.Display;
 using RhinoInsideRhino.RhinoHelpers;
 using RhinoInsideRhino.Views;
 
@@ -20,6 +21,8 @@ namespace RhinoInsideRhino
     {
 
         private RhinoObjectEventHandler _rhinoObjectEventHandler;
+
+        public DisplayOptions DisplayOptions { get; } = new DisplayOptions();   
 
         public RhinoInsideRhinoPlugin()
         {
