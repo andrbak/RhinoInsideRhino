@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Net;
+using System.IO;
+using System.Text;
 
 namespace RhinoInsideRhino.Requests
 {
@@ -20,7 +22,7 @@ namespace RhinoInsideRhino.Requests
             request.Method = "GET";
             request.Headers.Add("Authorization", $"Bearer {bearerToken}");
             string output = string.Empty;
-            using (WebResponse response = request1.GetResponse())
+            using (WebResponse response = request.GetResponse())
             {
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
@@ -36,7 +38,7 @@ namespace RhinoInsideRhino.Requests
             request.Method = "POST";
             request.ContentType = "application/json";
             request.UserAgent = "AecTech25Hack";
-            request.Headers.Add("Authorization", $"Bearer {Data.token}");
+            request.Headers.Add("Authorization", $"Bearer {bearerToken}");
             request.Headers.Add("x-compute-server", "wilfred-r8");
             byte[] byteArray = Encoding.UTF8.GetBytes(requestBody);
             request.ContentLength = byteArray.Length;
@@ -56,6 +58,8 @@ namespace RhinoInsideRhino.Requests
                     output = txt_out;
                 }
             }
+
+            return output;
         }
     }
 
