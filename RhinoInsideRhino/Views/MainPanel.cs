@@ -5,6 +5,7 @@ using Rhino;
 using Rhino.Geometry;
 using Rhino.Render.Fields;
 using Rhino.UI;
+using RhinoInsideRhino.Display;
 using RhinoInsideRhino.ObjectModel;
 using System;
 using System.Collections.Generic;
@@ -104,6 +105,27 @@ namespace RhinoInsideRhino.Views
             applyButton.Click += (sender, e) => OnApplyButton();
 
 
+            // Create checkboxes
+            var showHostObjectsCheckBox = new CheckBox { Text = "Show Host Objects" };
+            var showGeneratedGeometriesCheckBox = new CheckBox { Text = "Show Generated Geometries" };
+
+            // Set initial values based on static props
+            showHostObjectsCheckBox.Checked = GeometryPreview.ShowHosts;
+            showGeneratedGeometriesCheckBox.Checked = GeometryPreview.ShowGeneratedGeometries;
+
+            // Handle check changes and update static properties
+            showHostObjectsCheckBox.CheckedChanged += (sender, e) =>
+            {
+                GeometryPreview.ShowHosts = showHostObjectsCheckBox.Checked == true;
+                RhinoDoc.ActiveDoc.Views.Redraw(); // Redraw to apply changes   
+            };
+
+            showGeneratedGeometriesCheckBox.CheckedChanged += (sender, e) =>
+            {
+                GeometryPreview.ShowGeneratedGeometries = showGeneratedGeometriesCheckBox.Checked == true;
+                RhinoDoc.ActiveDoc.Views.Redraw(); // Redraw to apply changes  
+            };
+
             // Layout
             var layout = new DynamicLayout { DefaultSpacing = new Size(5, 5), Padding = new Padding(10) };
 
@@ -112,7 +134,12 @@ namespace RhinoInsideRhino.Views
             layout.AddRow(listBox);
             layout.AddRow(selectedLabel);
             layout.AddRow(applyButton);
+            layout.AddRow(showHostObjectsCheckBox, showGeneratedGeometriesCheckBox);
+
+
             layout.Add(null);
+
+
             Content = layout;
 
 
