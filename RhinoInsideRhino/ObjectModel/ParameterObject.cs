@@ -53,7 +53,7 @@ namespace RhinoInsideRhino.ObjectModel
                 }
 
                 // Set selected index based on current Value
-                var selectedIndex = Options.FindIndex(o => o.Value == (string)Value);
+                var selectedIndex = Options.FindIndex(o => o.Value == Value.ToString());
                 if (selectedIndex >= 0)
                     dropDown.SelectedIndex = selectedIndex;
             }
