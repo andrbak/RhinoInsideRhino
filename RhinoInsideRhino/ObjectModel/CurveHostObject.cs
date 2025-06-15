@@ -162,14 +162,24 @@ namespace RhinoInsideRhino.ObjectModel
             var decompressedOutputs = JObject.Parse(Decompress(output))["geometry"];
             // Deserialize the response
             var outputData = new List<object>();
-            foreach (var decompressedOutput in decompressedOutputs)
+            if (decompressedOutputs.GetType() == typeof(JToken))
             {
-                
-                var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutputs.ToString());
                 RhinoApp.WriteLine(_geom.ToString());
                 outputData.Add(_geom);
             }
-            ;
+            else
+            {
+
+                foreach (var decompressedOutput in decompressedOutputs)
+                {
+                
+                    var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                    RhinoApp.WriteLine(_geom.ToString());
+                    outputData.Add(_geom);
+                }
+            
+            }
 
             Data.GeneratedGeometries = outputData;
             Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
