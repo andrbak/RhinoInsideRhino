@@ -34,7 +34,7 @@ namespace RhinoInsideRhino.Requests
         }
         public string ComputeCall(string requestBody)
         {
-            var request = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/compute?outputId=" + Data.outputId);
+            var request = (HttpWebRequest)WebRequest.Create("https://api.prod.configurator-backend.modelup3d.com/compute?outputId=txt_out");
             request.Method = "POST";
             request.ContentType = "application/json";
             request.UserAgent = "AecTech25Hack";
