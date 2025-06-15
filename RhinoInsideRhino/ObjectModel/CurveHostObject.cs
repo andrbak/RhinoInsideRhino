@@ -141,6 +141,7 @@ namespace RhinoInsideRhino.ObjectModel
             foreach (KeyValuePair<string, ParameterObject> parameter in Data.Parameters)
             {
                 inputsJson[parameter.Key] = parameter.Value.Value;
+                RhinoApp.WriteLine(parameter.Key+":"+parameter.Value.Value);
             }
 
             var requestBody = new Dictionary<string, object>
@@ -163,12 +164,15 @@ namespace RhinoInsideRhino.ObjectModel
             var outputData = new List<object>();
             foreach (var decompressedOutput in decompressedOutputs)
             {
+                
                 var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                RhinoApp.WriteLine(_geom.ToString());
                 outputData.Add(_geom);
             }
             ;
 
             Data.GeneratedGeometries = outputData;
+            Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
 
 
             if (!Data.DisplayOnly)
