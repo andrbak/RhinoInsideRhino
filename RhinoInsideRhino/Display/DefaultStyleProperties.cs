@@ -12,14 +12,14 @@ namespace RhinoInsideRhino.Display
     {
         public static Dictionary<string, object> SelectedStyle = new Dictionary<string, object>
             {
-                { "thickness", 2.0 },
+                { "thickness", 5.0 },
                 { "transparency", 0.4 },
                 { "color", Color.Red },
                 { "OutlineColor", Color.Red }
             };
         public static Dictionary<string, object> BaseStyle = new Dictionary<string, object>
             {
-                { "thickness", 1.0 },
+                { "thickness", 5.0 },
                 { "transparency", 0.4 },
                 { "color", Color.Blue },
                 { "OutlineColor", Color.Blue}

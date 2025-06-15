@@ -18,6 +18,7 @@ using Newtonsoft.Json.Linq;
 using RhinoInsideRhino.Display;
 using RhinoInsideRhino.Requests;
 
+
 namespace RhinoInsideRhino.ObjectModel
 {
     class CurveHostObject : CustomCurveObject, IHostObject
@@ -53,21 +54,76 @@ namespace RhinoInsideRhino.ObjectModel
         protected override void OnDraw(DrawEventArgs e)
         {
 
+            Color generatedGeometryColor = Color.DarkCyan; 
+            Color baseColor = this.Data.Color;
+            Color selectedColor = Rhino.ApplicationSettings.AppearanceSettings.SelectedObjectColor;
+            Color color = IsSelected(false) == 2 ? selectedColor : baseColor;
+            int thickness = IsSelected(false) == 2 ? 1 : Data.Thickness;
 
 
 
 
 
-
-            if (this.CurveGeometry != null)
+            if (this.CurveGeometry != null && DisplayOptions.ShowHosts)
+            {
+                e.Display.DrawCurve(this.CurveGeometry, color, thickness);
                 //GeometryPreview.ShowOrUpdateCurve(this.CurveGeometry, color, thickness);
-                GeometryPreview.Show(this.CurveGeometry, IsSelected(false) == 2 ? DefaultStyleProperties.SelectedStyle : DefaultStyleProperties.BaseStyle);
+                //GeometryPreview.Show(this.CurveGeometry, IsSelected(false) == 2 ? DefaultStyleProperties.SelectedStyle : DefaultStyleProperties.BaseStyle);
+            }
+
+
+            else
+            {
+                base.OnDraw(e);
+            }
+
 
             //// Draw generated geometries
-            if (Data.GeneratedGeometries != null)
+            if (Data.GeneratedGeometries != null && DisplayOptions.ShowGeneratedGeometries)
             {
 
-                GeometryPreview.Show(Data.GeneratedGeometries, IsSelected(false) == 2 ? DefaultStyleProperties.SelectedStyle : DefaultStyleProperties.BaseStyle);
+
+                foreach (var geom in Data.GeneratedGeometries)
+                {
+                    if (geom == null)
+                        continue;
+
+                    if (geom is Curve curve)
+                    {
+                        e.Display.DrawCurve(curve, generatedGeometryColor, thickness);
+                    }
+                    else if (geom is Brep brep)
+                    {
+                        e.Display.DrawBrepShaded(brep, new DisplayMaterial(generatedGeometryColor));
+                        e.Display.DrawBrepWires(brep, generatedGeometryColor, thickness);
+                    }
+                    else if (geom is Mesh mesh)
+                    {
+                        e.Display.DrawMeshShaded(mesh, new DisplayMaterial(generatedGeometryColor));
+                        e.Display.DrawMeshWires(mesh, generatedGeometryColor);
+                    }
+                    else if (geom is Point3d point)
+                    {
+                        e.Display.DrawPoint(point, PointStyle.Simple, 3, generatedGeometryColor);
+                    }
+                    else if (geom is Point3d pt)
+                    {
+                        e.Display.DrawPoint(pt, PointStyle.Simple, 3, generatedGeometryColor);
+                    }
+                    else if (geom is Line line)
+                    {
+                        e.Display.DrawLine(line, generatedGeometryColor, thickness);
+                    }
+                    else if (geom is Polyline polyline)
+                    {
+                        e.Display.DrawPolyline(polyline, generatedGeometryColor, thickness);
+                    }
+                    // Add more types as needed
+                }
+
+
+
+                // GeometryPreview.Show(Data.GeneratedGeometries, IsSelected(false) == 2 ? DefaultStyleProperties.SelectedStyle : DefaultStyleProperties.BaseStyle);
 
 
             }

@@ -8,6 +8,12 @@ namespace RhinoInsideRhino.Display
 {
     public static class GeometryPreview
     {
+
+
+        public static bool ShowHosts { get; set; } = true;
+        public static bool ShowGeneratedGeometries { get; set; } = true;
+
+
         private static CurvePreviewConduit _curveConduit;
         private static BrepPreviewConduit _brepConduit;
         private static MeshPreviewConduit _meshConduit;
@@ -127,7 +133,7 @@ namespace RhinoInsideRhino.Display
         }
     }
 
-    class CurvePreviewConduit : DisplayConduit
+    class CurvePreviewConduit : Rhino.Display.DisplayConduit
     {
         private Curve _curve;
         private Color _color;
