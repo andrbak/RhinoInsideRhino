@@ -133,20 +133,15 @@ namespace RhinoInsideRhino.Views
                 Content = layout;
 
             }
-            else
+            var data = selectedObjects[0].Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
+            var layout = new DynamicLayout();
+            layout.AddSeparateRow(new Label { Text = "This is a Smart Object" });
+            layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
+            foreach (var parameter in data.Data.Parameters)
             {
-                var data = selectedObjects[0].Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
-                layout.AddSeparateRow(new Label { Text = "This is a Smart Object" });
-                layout.AddSeparateRow(new Label { Text = "Selected objects:" + selectedObjects.Length.ToString() + selectedObjects[0].Id.ToString() });
-                layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
-                foreach (var parameter in data.Data.Parameters)
-                {
-
-
-                    layout.AddSeparateRow(parameter.Value.GetEtoControl());
-
-
-                }
+                Control etoParameter = parameter.Value.GetEtoControl();              
+                layout.AddSeparateRow(parameter.Value.GetEtoControl());
+            }
 
                 layout.AddSeparateRow();
                 Content = layout;

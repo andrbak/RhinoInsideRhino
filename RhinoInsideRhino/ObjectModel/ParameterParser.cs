@@ -49,7 +49,7 @@ public static class ParameterParser
                         dropDown.Options.Add(new DropDownOption
                         {
                             Text = option["text"]?.ToString(),
-                            Value = option["value"]?.ToString()
+                            Value = Int32.Parse(option["value"]?.ToString())
                         });
                     }
                 }

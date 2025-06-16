@@ -190,6 +190,7 @@ namespace RhinoInsideRhino.ObjectModel
                 BakeGeneratedGeometry();
             }
 
+            Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
         }
         public static string Compress(string text)
         {

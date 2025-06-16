@@ -393,7 +393,7 @@ namespace RhinoInsideRhino.Views
                     if (obj.Geometry is Curve curve)
                     {
 
-                        CurveHostObject curveHostObjects = new CurveHostObject(curve);
+                        CurveHostObject curveHostObject = new CurveHostObject(curve);
 
                         curveHostObjects.Data.ModelId = selectedMacro.ModelId;
                         curveHostObjects.Data.Token = selectedMacro.Token;
@@ -404,7 +404,7 @@ namespace RhinoInsideRhino.Views
                         var jObject = JObject.Parse(modelinfo);
 
                         var activeModelId = jObject["data"]?["getProject"]?["activeModel"]?["id"].ToString();
-                        curveHostObjects.Data.ActiveModelId = activeModelId;
+                        curveHostObject.Data.ActiveModelId = activeModelId;
 
                         if (modelinfo != string.Empty)
                         {
@@ -414,12 +414,12 @@ namespace RhinoInsideRhino.Views
 
                             foreach (var param in parameters)
                             {
-                                param.Value.ValueChanged += curveHostObjects.Update;
+                                param.Value.ValueChanged += curveHostObject.Update;
                             }
 
-                            curveHostObjects.Data.Parameters = parameters;
+                            curveHostObject.Data.Parameters = parameters;
 
-                            RhinoDoc.ActiveDoc.Objects.AddRhinoObject(curveHostObjects, curve);
+                            RhinoDoc.ActiveDoc.Objects.AddRhinoObject(curveHostObject, curve);
 
                             // Delete original object
                             RhinoDoc.ActiveDoc.Objects.Delete(obj, true);
