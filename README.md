@@ -17,6 +17,8 @@ Rhino Inside Rhino is a plugin for Rhino that empowers users to access powerful,
 
 This plugin is ideal for architects, designers, and Rhino developers seeking to streamline workflows and enhance interactivity without diving deep into scripting. Developers can easily contribute new tools by dropping pre-configured logic blocks into the repository folder, making it a flexible, community-driven platform for extending Rhino’s capabilities.
 
+*This was developped over the span of 26 hours during the AECtech+ Barcelona 2025 Hackathon.*
+
 ---
 
 ### 🚀 Getting Started
