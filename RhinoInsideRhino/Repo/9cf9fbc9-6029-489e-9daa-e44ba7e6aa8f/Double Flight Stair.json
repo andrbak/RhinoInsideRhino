@@ -1,11 +1,11 @@
 {
   "description": "This Grasshopper definition generates a fully parametric double fligth staircase using a straight line as its base geometry. The staircase is defined by key adjustable parameters such as total height, number of steps, tread width and  thickness. Optional controls allow users to modify the stair direction (clockwise or counter-clockwise), add a balustrade and modify the density of it. The parametric setup ensures real-time adaptability, making it easy to explore design variations or match specific architectural constraints.",
   "timestamp": "2025-06-15 04:50:13",
-  "model_id": "oVTfWiIs",
   "author": "Bob",
   "img_path": "Straight Stairs.png",
   "version": "0.0.1",
   "gh_doc_uuid": "9cf9fbc9-6029-489e-9daa-e44ba7e6aa8f",
   "name": "Straight Stairs",
+  "model_id_key": "oVTfWiIs",
   "token_key": "TOKEN_KEY"
 }
