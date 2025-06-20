@@ -8,6 +8,7 @@ namespace RhinoInsideRhino.ObjectModel
         public double Min { get; set; }
         public double Max { get; set; }
         public int DecimalPlaces { get; set; }
+        public bool SnapToTick { get; set; } = false;
         public SliderParameterObject()
         {
             Type = "Slider";
@@ -15,9 +16,9 @@ namespace RhinoInsideRhino.ObjectModel
 
         public override Control GetEtoControl()
         {
-            //int scale = (int)Math.Pow(10, DecimalPlaces);
-            int scaledMin = (int)(Min);
-            int scaledMax = (int)(Max);
+            int scale = (int)Math.Pow(10, DecimalPlaces);
+            int scaledMin = (int)(Min* scale);
+            int scaledMax = (int)(Max* scale);
 
             var label = new Label
             {
@@ -30,7 +31,8 @@ namespace RhinoInsideRhino.ObjectModel
                 MinValue = scaledMin,
                 MaxValue = scaledMax,
                 Orientation = Orientation.Horizontal,
-                Width = 200
+                Width = 200,
+                SnapToTick = SnapToTick,
             };
 
             var valueLabel = new Label
@@ -43,7 +45,7 @@ namespace RhinoInsideRhino.ObjectModel
                 Value = Min;
 
             double currentValue = Convert.ToDouble(Value);
-            slider.Value = (int)(currentValue);
+            slider.Value = (int)(currentValue* scale);
             valueLabel.Text = currentValue.ToString("F" + DecimalPlaces);
 
            
@@ -51,8 +53,8 @@ namespace RhinoInsideRhino.ObjectModel
             slider.ValueChanged += (sender, e) =>
             {
                 double newValue = slider.Value;
-                Value = newValue;
-                valueLabel.Text = newValue.ToString("F" + DecimalPlaces);
+                Value = newValue/ scale; // Convert back to original scale
+                valueLabel.Text = (newValue/scale).ToString("F" + DecimalPlaces);
                 ValueChanged?.Invoke();
             };
 

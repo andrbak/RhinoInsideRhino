@@ -133,7 +133,6 @@ namespace RhinoInsideRhino.ObjectModel
         {
             RhinoApp.WriteLine("Object Changed");
 
-
             var inputsJson = new Dictionary<string, object>
             {
                 ["txt_in"] = Compress(Newtonsoft.Json.JsonConvert.SerializeObject(new Dictionary<string, string[]> { ["geometry"] = new List<string> { Geometry.ToJSON(new Rhino.FileIO.SerializationOptions()), }.ToArray() }))
@@ -173,14 +172,20 @@ namespace RhinoInsideRhino.ObjectModel
 
                 foreach (var decompressedOutput in decompressedOutputs)
                 {
-                
-                    var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
-                    RhinoApp.WriteLine(_geom.ToString());
-                    outputData.Add(_geom);
+                    try
+                    {
+                        var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                        RhinoApp.WriteLine(_geom.ToString());
+                        outputData.Add(_geom);
+                    }
+                    catch (Exception ex)
+                    {
+                        RhinoApp.WriteLine("Error parsing geometry: " + ex.Message);
+                        continue; // Skip this geometry if it fails to parse
+                    }
                 }
             
             }
-
             Data.GeneratedGeometries = outputData;
             Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
 

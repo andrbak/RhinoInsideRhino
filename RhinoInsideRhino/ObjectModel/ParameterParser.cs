@@ -29,7 +29,7 @@ public static class ParameterParser
                     Name = name,
                     Min = input["min"]?.ToObject<double>() ?? 0,
                     Max = input["max"]?.ToObject<double>() ?? 0,
-                    DecimalPlaces = input["decimalPlaces"]?.ToObject<int>() ?? 0,
+                    DecimalPlaces = input["decimalPlaces"]?.ToObject<int>() ?? 1,
                     Value = input["numberValue"]?.ToObject<double?>()
                 };
             }

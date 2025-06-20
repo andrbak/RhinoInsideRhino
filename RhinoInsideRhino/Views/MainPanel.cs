@@ -111,7 +111,7 @@ namespace RhinoInsideRhino.Views
                 HeaderText = "Description",
                 DataCell = new TextBoxCell
                 {
-                    
+
                     Binding = Binding.Property<Macro, string>(m => m.Description),
 
                 },
@@ -122,7 +122,7 @@ namespace RhinoInsideRhino.Views
             listView.SelectedRowsChanged += (s, e) =>
             {
                 var selectedIndex = listView.SelectedRow;
-                selectedMacro = selectedIndex >= 0 ? (Macro) listView.DataStore.ElementAt(selectedIndex) : null;
+                selectedMacro = selectedIndex >= 0 ? (Macro)listView.DataStore.ElementAt(selectedIndex) : null;
                 selectedLabel.Text = selectedMacro != null ? "Selected: " + selectedMacro.Name : "Nothing selected";
             };
 
@@ -260,24 +260,13 @@ namespace RhinoInsideRhino.Views
         public MainPanel(uint documentSerialNumber)
         {
 
-            // Sample data
-            //var items = new List<Macro>
-            //{
-            //    new Macro { Name = "Apple", Description = "A juicy red fruit." },
-            //    new Macro { Name = "Banana", Description = "A long yellow fruit." },
-            //    new Macro { Name = "Cherry", Description = "A small red fruit." }
-            //};
-
-
-
-
 
 
             Content = CreateContent();
 
 
 
-           
+
 
 
 
@@ -381,7 +370,7 @@ namespace RhinoInsideRhino.Views
             {
 
                 //Get selection
-                var selectedObjects= Rhino.RhinoDoc.ActiveDoc.Objects.GetSelectedObjects(false, false);
+                var selectedObjects = Rhino.RhinoDoc.ActiveDoc.Objects.GetSelectedObjects(false, false);
 
 
                 string message = "Applying macro: " + selectedMacro.Name + " to:";
@@ -395,8 +384,8 @@ namespace RhinoInsideRhino.Views
 
                         CurveHostObject curveHostObject = new CurveHostObject(curve);
 
-                        curveHostObjects.Data.ModelId = selectedMacro.ModelId;
-                        curveHostObjects.Data.Token = selectedMacro.Token;
+                        curveHostObject.Data.ModelId = selectedMacro.ModelId;
+                        curveHostObject.Data.Token = selectedMacro.Token;
 
                         RhinoApp.WriteLine(selectedMacro.ModelId);
                         string modelinfo = modelUp.ModelInfo(selectedMacro.ModelId, selectedMacro.Token);
@@ -425,8 +414,8 @@ namespace RhinoInsideRhino.Views
                             RhinoDoc.ActiveDoc.Objects.Delete(obj, true);
                         }
 
-         
-                        
+
+
 
                     }
 
@@ -442,12 +431,12 @@ namespace RhinoInsideRhino.Views
 
                 //Dialogs.ShowMessage(message, Title);
 
-                
+
 
 
 
             }
-   
+
             else
                 Dialogs.ShowMessage("No macro selected.", Title);
         }

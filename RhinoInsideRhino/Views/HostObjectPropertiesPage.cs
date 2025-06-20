@@ -134,7 +134,7 @@ namespace RhinoInsideRhino.Views
 
             }
             var data = selectedObjects[0].Attributes.UserData.Find(typeof(CurveHostUserData)) as CurveHostUserData;
-            var layout = new DynamicLayout();
+            layout = new DynamicLayout();
             layout.AddSeparateRow(new Label { Text = "This is a Smart Object" });
             layout.AddSeparateRow(new Label { Text = "ModelId:" + data.Data.ModelId });
             foreach (var parameter in data.Data.Parameters)
@@ -150,5 +150,5 @@ namespace RhinoInsideRhino.Views
         }
 
     }
-}
+
 
