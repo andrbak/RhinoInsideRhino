@@ -82,7 +82,6 @@ namespace RhinoInsideRhino.ObjectModel
             if (Data.GeneratedGeometries != null && RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowGeneratedGeometries)
             {
 
-
                 foreach (var geom in Data.GeneratedGeometries)
                 {
                     if (geom == null)
@@ -188,7 +187,7 @@ namespace RhinoInsideRhino.ObjectModel
             }
             Data.GeneratedGeometries = outputData;
             Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
-
+            Rhino.RhinoDoc.ActiveDoc.Views.ActiveView.Redraw();
 
             if (!Data.DisplayOnly)
             {
