@@ -99,23 +99,55 @@ namespace RhinoInsideRhino.Views
                     ImageBinding = Binding.Delegate<Macro, Image>(m => LoadImageSafe(m.ImagePath)),
                     TextBinding = Binding.Property<Macro, string>(m => m.Name)
                 },
-                Width = 200
+                Width = 180,
+                AutoSize = true
             });
 
 
+            // Description
+            listView.Columns.Add(new GridColumn
+            {
+                HeaderText = "Version",
+                DataCell = new TextBoxCell
+                {
 
+                    Binding = Binding.Property<Macro, string>(m => m.Version),
+
+                },
+                Width = 60
+            });
 
             // Description
+
+
             listView.Columns.Add(new GridColumn
             {
                 HeaderText = "Description",
                 DataCell = new TextBoxCell
                 {
 
-                    Binding = Binding.Property<Macro, string>(m => m.Description),
-
+                    Binding = Binding.Delegate<Macro, string>(m =>
+                    {
+                        var desc = m.Description.Split(' ');
+                        string formattedDesc = string.Empty;
+                        var currentChunk = string.Empty;
+                        for (int i = 0; i < desc.Length; i++)
+                        {
+                            if (currentChunk.Length > 150)
+                            {
+                                // If the current chunk is too long, start a new line
+                                formattedDesc += "\n";
+                                currentChunk = string.Empty;
+                            }
+                            currentChunk += desc[i] + " ";
+                            formattedDesc += desc[i] + " ";
+                        }
+                        // Return the formatted description;
+                        return formattedDesc.Trim();
+                    }),
                 },
-                Width = 300
+                Width = 300,
+                AutoSize = true
             });
 
             var selectedLabel = new Label { Text = "" };

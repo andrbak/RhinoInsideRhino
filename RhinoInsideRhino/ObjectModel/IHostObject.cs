@@ -11,6 +11,7 @@ namespace RhinoInsideRhino.ObjectModel
     public interface IHostObject
     {
         void Update();
+        void DisposeHostObject();
     }
 }
 

@@ -6,6 +6,6 @@
     "img_path": "Scattering Trees.png", 
     "version": "0.0.1", 
     "gh_doc_uuid": "50cf57bb-95bd-4011-a6ba-5b339f8db579", 
-    "model_id": "MODEL_ID_KEY", 
+    "model_id_key": "MODEL_ID_KEY", 
     "token_key": "TOKEN_KEY"
 }

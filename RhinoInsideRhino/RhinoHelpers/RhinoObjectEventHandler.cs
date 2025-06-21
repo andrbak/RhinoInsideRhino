@@ -115,7 +115,6 @@ namespace RhinoInsideRhino.RhinoHelpers
             if (obj is IHostObject hostObject && !_isOpeningDocument)
             {
                 //RhinoApp.WriteLine("Added host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
-
                 hostObject.Update();
             }
         }
@@ -127,6 +126,7 @@ namespace RhinoInsideRhino.RhinoHelpers
 
             if (e.TheObject is IHostObject hostObject)
             {
+                hostObject.DisposeHostObject();
                 //RhinoApp.WriteLine("Deleted host object: " + hostObject.GetType().Name + " with Id: " + e.TheObject.Id + ".");
             }
         }

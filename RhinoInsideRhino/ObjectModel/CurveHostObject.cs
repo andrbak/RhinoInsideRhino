@@ -54,15 +54,11 @@ namespace RhinoInsideRhino.ObjectModel
         protected override void OnDraw(DrawEventArgs e)
         {
 
-            Color generatedGeometryColor = Color.DarkCyan; 
+            Color generatedGeometryColor = Color.DarkCyan;
             Color baseColor = this.Data.Color;
             Color selectedColor = Rhino.ApplicationSettings.AppearanceSettings.SelectedObjectColor;
             Color color = IsSelected(false) == 2 ? selectedColor : baseColor;
             int thickness = IsSelected(false) == 2 ? 1 : Data.Thickness;
-
-
-
-
 
             if (this.CurveGeometry != null && RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowHosts)
             {
@@ -81,7 +77,7 @@ namespace RhinoInsideRhino.ObjectModel
             //// Draw generated geometries
             if (Data.GeneratedGeometries != null && RhinoInsideRhinoPlugin.Instance.DisplayOptions.ShowGeneratedGeometries)
             {
-
+                List<Brep> displayBreps = new List<Brep>();
                 foreach (var geom in Data.GeneratedGeometries)
                 {
                     if (geom == null)
@@ -93,8 +89,9 @@ namespace RhinoInsideRhino.ObjectModel
                     }
                     else if (geom is Brep brep)
                     {
-                        e.Display.DrawBrepShaded(brep, new DisplayMaterial(generatedGeometryColor));
-                        e.Display.DrawBrepWires(brep, generatedGeometryColor, thickness);
+                        displayBreps.Add(brep);
+                        // e.Display.DrawBrepShaded(brep, new DisplayMaterial(generatedGeometryColor));
+                        // e.Display.DrawBrepWires(brep, generatedGeometryColor, thickness);
                     }
                     else if (geom is Mesh mesh)
                     {
@@ -119,6 +116,7 @@ namespace RhinoInsideRhino.ObjectModel
                     }
                     // Add more types as needed
                 }
+                GeometryPreview.ShowOrUpdateBrep(displayBreps.ToArray(), generatedGeometryColor, thickness, 0.5); // Changed to this to resolve clipping
 
 
 
@@ -128,6 +126,21 @@ namespace RhinoInsideRhino.ObjectModel
             }
         }
 
+        public void DisposeHostObject()
+        {
+            // Clear generated geometries and baked object IDs on delete
+            // Data.GeneratedGeometries.Clear();
+            // Data.BakedObjectIds.Clear();
+
+            // Remove user data
+            // if (_userData != null)
+            // {
+            //     Attributes.UserData.Remove(_userData);
+            // }
+            GeometryPreview.ClearAll();
+
+            base.Dispose();
+        }
         public void Update()
         {
             RhinoApp.WriteLine("Object Changed");
@@ -139,7 +152,7 @@ namespace RhinoInsideRhino.ObjectModel
             foreach (KeyValuePair<string, ParameterObject> parameter in Data.Parameters)
             {
                 inputsJson[parameter.Key] = parameter.Value.Value;
-                RhinoApp.WriteLine(parameter.Key+":"+parameter.Value.Value);
+                RhinoApp.WriteLine(parameter.Key + ":" + parameter.Value.Value);
             }
 
             var requestBody = new Dictionary<string, object>
@@ -152,7 +165,7 @@ namespace RhinoInsideRhino.ObjectModel
                 }
             };
             // Construct the HTTP POST request
-            
+
             RhinoInsideRhino.Requests.ModelUp modelup = new RhinoInsideRhino.Requests.ModelUp();
 
             string output = modelup.ComputeCall(Newtonsoft.Json.JsonConvert.SerializeObject(requestBody), Data.Token);
@@ -162,7 +175,7 @@ namespace RhinoInsideRhino.ObjectModel
             var outputData = new List<object>();
             if (decompressedOutputs.GetType() == typeof(JToken))
             {
-                var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutputs.ToString());
+                var _geom = FromJSON(decompressedOutputs.ToString());
                 RhinoApp.WriteLine(_geom.ToString());
                 outputData.Add(_geom);
             }
@@ -173,7 +186,7 @@ namespace RhinoInsideRhino.ObjectModel
                 {
                     try
                     {
-                        var _geom = Rhino.Geometry.GeometryBase.FromJSON(decompressedOutput.ToString());
+                        var _geom = FromJSON(decompressedOutput.ToString());
                         RhinoApp.WriteLine(_geom.ToString());
                         outputData.Add(_geom);
                     }
@@ -183,11 +196,12 @@ namespace RhinoInsideRhino.ObjectModel
                         continue; // Skip this geometry if it fails to parse
                     }
                 }
-            
+
             }
             Data.GeneratedGeometries = outputData;
-            Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
+            // Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
             Rhino.RhinoDoc.ActiveDoc.Views.ActiveView.Redraw();
+            
 
             if (!Data.DisplayOnly)
             {

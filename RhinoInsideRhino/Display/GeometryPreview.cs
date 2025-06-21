@@ -18,18 +18,18 @@ namespace RhinoInsideRhino.Display
         private static BrepPreviewConduit _brepConduit;
         private static MeshPreviewConduit _meshConduit;
 
-        public static void Show(object geo , Color c, int Thickness, double transparency)
+        public static void Show(object geo, Color c, int Thickness, double transparency)
         {
             switch (geo)
             {
                 case Curve crv:
                     ShowOrUpdateCurve(crv, c, Thickness);
                     break;
-                case Brep brep:
-                    ShowOrUpdateBrep(brep, Color.Teal, Thickness , transparency);
+                case Brep[] brep:
+                    ShowOrUpdateBrep(brep, Color.Teal, Thickness, transparency);
                     break;
                 case Mesh mesh:
-                    ShowOrUpdateMesh(mesh, Color.Orange , transparency);
+                    ShowOrUpdateMesh(mesh, Color.Orange, transparency);
                     break;
 
             }
@@ -92,17 +92,18 @@ namespace RhinoInsideRhino.Display
             ShowOrUpdateCurve(curve, color, thickness);
         }
 
-        public static void ShowOrUpdateBrep(Brep brep, Color color, int thickness, double transparency)
+        public static void ShowOrUpdateBrep(Brep[] brep, Color color, int thickness, double transparency)
         {
             if (_brepConduit == null)
             {
-                _brepConduit = new BrepPreviewConduit(brep, color, thickness , transparency       );
+                _brepConduit = new BrepPreviewConduit(brep, color, thickness, transparency);
                 _brepConduit.Enabled = true;
             }
             else
             {
                 _brepConduit.Update(brep, color, thickness, transparency);
             }
+            Rhino.RhinoDoc.ActiveDoc.Views.Redraw();
         }
 
         public static void ShowOrUpdateMesh(Mesh mesh, Color color, double transparency)
@@ -170,12 +171,12 @@ namespace RhinoInsideRhino.Display
 
     class BrepPreviewConduit : DisplayConduit
     {
-        private Brep _brep;
+        private Brep[] _brep;
         private Color _color;
         private int _thickness;
         private double _transparency;
 
-        public BrepPreviewConduit(Brep brep, Color color, int thickness, double transparency)
+        public BrepPreviewConduit(Brep[] brep, Color color, int thickness, double transparency)
         {
             _brep = brep;
             _color = color;
@@ -183,7 +184,7 @@ namespace RhinoInsideRhino.Display
             _transparency = transparency;
         }
 
-        public void Update(Brep brep, Color color, int thickness, double transparency)
+        public void Update(Brep[] brep, Color color, int thickness, double transparency)
         {
             _brep = brep;
             _color = color;
@@ -196,15 +197,24 @@ namespace RhinoInsideRhino.Display
             if (_brep != null)
             {
                 var material = new DisplayMaterial(_color, _transparency);
-                e.Display.DrawBrepShaded(_brep, material);
-                e.Display.DrawBrepWires(_brep, _color, _thickness);
+                for (int i = 0; i < _brep.Length; i++)
+                {
+                    if (_brep[i] != null)
+                    {
+                        // DrawBrep(e, _brep[i]);
+                        e.Display.DrawBrepShaded(_brep[i], material);
+                        e.Display.DrawBrepWires(_brep[i], _color, _thickness);
+                    }
+                }
             }
         }
 
         protected override void CalculateBoundingBox(CalculateBoundingBoxEventArgs e)
         {
             if (_brep != null)
-                e.IncludeBoundingBox(_brep.GetBoundingBox(true));
+                foreach (var brep in _brep)
+                    if (brep != null)
+                        e.IncludeBoundingBox(brep.GetBoundingBox(true));
         }
 
         public void Disable() => Enabled = false;
@@ -214,20 +224,20 @@ namespace RhinoInsideRhino.Display
     {
         private Mesh _mesh;
         private Color _color;
-        private double _transparency; 
+        private double _transparency;
 
         public MeshPreviewConduit(Mesh mesh, Color color, double transparency)
         {
             _mesh = mesh;
             _color = color;
-            _transparency = transparency; 
+            _transparency = transparency;
         }
 
         public void Update(Mesh mesh, Color color, double transparency)
         {
             _mesh = mesh;
             _color = color;
-            _transparency = transparency; 
+            _transparency = transparency;
         }
 
         protected override void PreDrawObjects(DrawEventArgs e)
